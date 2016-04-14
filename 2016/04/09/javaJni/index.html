@@ -1,0 +1,593 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,cpp," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="进入项目主目录　
+
+yzr@Op  ~/jniTest/src $
+
+如果 java 的文件需要　package ，那么这里就要手动创建目录，比如，java 文件将来要打包　com.pac, 那么在主目录这里，通过
+
+yzr@Op  ~/jniTest/src/com/pac $ mkdir comyzr@Op  ~/jniTest/src/com/pac $ cd comyzr@Op  ~/j">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jni使用">
+<meta property="og:url" content="http://yoursite.com/2016/04/09/javaJni/index.html">
+<meta property="og:site_name" content="WarpTens">
+<meta property="og:description" content="进入项目主目录　
+
+yzr@Op  ~/jniTest/src $
+
+如果 java 的文件需要　package ，那么这里就要手动创建目录，比如，java 文件将来要打包　com.pac, 那么在主目录这里，通过
+
+yzr@Op  ~/jniTest/src/com/pac $ mkdir comyzr@Op  ~/jniTest/src/com/pac $ cd comyzr@Op  ~/j">
+<meta property="og:updated_time" content="2016-04-14T01:42:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jni使用">
+<meta name="twitter:description" content="进入项目主目录　
+
+yzr@Op  ~/jniTest/src $
+
+如果 java 的文件需要　package ，那么这里就要手动创建目录，比如，java 文件将来要打包　com.pac, 那么在主目录这里，通过
+
+yzr@Op  ~/jniTest/src/com/pac $ mkdir comyzr@Op  ~/jniTest/src/com/pac $ cd comyzr@Op  ~/j">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> jni使用 | WarpTens </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">WarpTens</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jni使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-04-09T20:39:31+08:00" content="2016-04-09">
+              2016-04-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ol>
+<li>进入项目主目录　</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yzr@Op  ~/jniTest/src $</span><br></pre></td></tr></table></figure>
+<ol>
+<li>如果 java 的文件需要　package ，那么这里就要手动创建目录，比如，java 文件将来要打包　<em>com.pac</em>, 那么在主目录这里，通过</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yzr@Op  ~/jniTest/src/com/pac $ mkdir com</span><br><span class="line">yzr@Op  ~/jniTest/src/com/pac $ cd com</span><br><span class="line">yzr@Op  ~/jniTest/src/com/pac $ mkdir pac</span><br><span class="line">yzr@Op  ~/jniTest/src/com/pac $ cd pac</span><br></pre></td></tr></table></figure>
+<p>这里就建立好并且进入了目录：目前终端显示的路径是:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yzr@Op  ~/jniTest/src/com/pac $</span><br></pre></td></tr></table></figure>
+<p>然后用任何一个文本编辑器，编写java文件，这里用的是atom,你也可以用系统自带的gedit 或者vim</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yzr@Op  ~/jniTest/src/com/pac $ atom Jni.java</span><br></pre></td></tr></table></figure>
+<p>编写的文件内容为：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.pac;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Jni</span></span><br><span class="line"></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span>&#123;</span><br><span class="line"></span><br><span class="line">    System.loadLibrary(<span class="string">"jt"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String  []args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Jni().print();</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编写退出后，通过　javac 编译<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">~/jniTest/src/com/pac $ javac Jni.java</span><br></pre></td></tr></table></figure></p>
+<p>再退回到主目录<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">~/jniTest/src/com/pac $ cd ..</span><br><span class="line">~/jniTest/src/com/ $ cd ..</span><br></pre></td></tr></table></figure></p>
+<p>通过javah 生成相应头文件<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">javah com.pac.Jni</span><br></pre></td></tr></table></figure></p>
+<p>当前文件夹就出现了一个文件：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">~/jniTest/src/ $ ls</span><br></pre></td></tr></table></figure></p>
+<p>显示：　&gt; com  com_pac_Jni.h<br>这个头文件就是我们现在需要的东西了，打开看看</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="comment">/* Header for class com_pac_Jni */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _Included_com_pac_Jni</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _Included_com_pac_Jni</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="comment">/*</span><br><span class="line"> * Class:     com_pac_Jni</span><br><span class="line"> * Method:    print</span><br><span class="line"> * Signature: ()V</span><br><span class="line"> */</span></span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_pac_Jni_print</span></span><br><span class="line">  <span class="params">(JNIEnv *, jobject)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>具体什么意思先不管，继续在当前目录新建一个cpp文件，<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">~/jniTest/src/ $ atom te.cpp</span><br></pre></td></tr></table></figure></p>
+<p>文件内容：<br><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"com_pac_Jni.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_pac_Jni_print</span></span><br><span class="line"><span class="params">(JNIEnv * env, jobject jthis)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"this is a call from c++\n"</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后打包成库文件:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">~/jniTest/src/ $ gcc -shared -I /usr/lib/jvm/java-7-openjdk-amd64/include -fPIC te.cpp -o libjt.so</span><br></pre></td></tr></table></figure></p>
+<p>然后就可以运行了，这里需要指定库文件的路径，<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yzr@Op  ~/jniTest/src $ java -Djava.library.path=./ com.pac.Jni</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：</p>
+<blockquote>
+<p>this is a call from c++</p>
+</blockquote>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/cpp/" rel="tag">#cpp</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/23/lanqiao2016/" rel="next" title="蓝桥杯2016省赛c/c++ B组">
+                <i class="fa fa-chevron-left"></i> 蓝桥杯2016省赛c/c++ B组
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/14/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/default_avatar.jpg"
+               alt="WarpTens" />
+          <p class="site-author-name" itemprop="name">WarpTens</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">Dieser Artikel hat kein Inhaltsverzeichnis</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WarpTens</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
