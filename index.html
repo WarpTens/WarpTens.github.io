@@ -171,6 +171,16 @@
         </li>
       
         
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
@@ -752,6 +762,108 @@
             
               
                 
+                <a class="post-title-link" href="/2016/02/01/viewEventDispatch/" itemprop="url">
+                  Android 事件分发机制解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-02-01T20:11:12+08:00" content="2016-02-01">
+              2016-02-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><em>事件序列</em>　: 在屏幕上点击的瞬间会产生　ACTION_DOWN 事件，紧跟着的滑动的 ACTION_MOVE　事件　,到最后的　ACTION_DOWN 　为一个完整的事件序列</p>
+<p><em>传递顺序</em>  : 当一个事件产生后，将由顺序　Activity -&gt; Window -&gt; DecorView -&gt; ViewGroup -&gt; View 逐层分发, 在获得一个事件后，先判断是否拦截，如果拦截,则该事件序列之后的事件不需要判断是否拦截，直接交由它处理，如果不拦截，则分发给子view,子View 重复该分发的步骤并返回是否处理，如果子view不处理，则自己处理该事件，如果它不处理，即onTouchEvent 返回 false 则将事件抛至上层处理,直到Activity</p>
+<p><em>事件拦截</em>  : 如果一个 ViewGroup中的 onInterceptTouchEvent 返回 true ，表示当前ViewGroup 要拦截当前事件,则该ViewGroup的onTouchEvent将会调用；如果不拦截，将会把事件分发给子view.<br>注意拦截ACION_DOWN与其他ACTION的差异:</p>
+<ul>
+<li>第1种情况：如果ACTION_DOWN的事件没有被拦截，顺利找到了TargetView，那么后续的MOVE与UP都能够下发。如果后续的MOVE与UP下发时还有继续拦截的话，事件只能传递到拦截层，并且发出ACTION_CANCEL。</li>
+<li>第2种情况：如果ACITON_DOWN的事件下发时被拦截，导致没有找到TargetView，那么后续的MOVE与UP都无法向下派发了，在Activity层就终止了传递。</li>
+</ul>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/02/01/viewEventDispatch/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/13/javaRegex/" itemprop="url">
                   JAVA正则表达式
                 </a>
@@ -1073,7 +1185,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
@@ -1083,7 +1195,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">Tags</span>
               </a>
             </div>
@@ -1119,7 +1231,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2015 - 
   <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
