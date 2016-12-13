@@ -31,7 +31,7 @@
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
 			
-			<img lazy-src="http://avatar.csdn.net/D/2/1/1_yzr1183739890.jpg" class="js-avatar">
+			<img lazy-src="http://avatar.csdn.net/0/6/8/1_warptens.jpg?1481643481559" class="js-avatar">
 			
 			
 		</a>
@@ -361,7 +361,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img lazy-src="http://avatar.csdn.net/D/2/1/1_yzr1183739890.jpg" class="js-avatar">
+				<img lazy-src="http://avatar.csdn.net/0/6/8/1_warptens.jpg?1481643481559" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author">WarpTens</h1>
@@ -392,6 +392,67 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-picasso" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/11/picasso/" class="article-date">
+  	<time datetime="2016-12-11T06:59:58.000Z" itemprop="datePublished">2016-12-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/11/picasso/">Picasso 源码分析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><a href="http://www.trinea.cn/android/android-image-cache-compare/">三大图片加载库</a></li>
+<li><a href="http://skykai521.github.io/2016/02/25/Picasso%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">Picasso 源码分析</a></li>
+</ul>
+<h2 id="总体设计及流程"><a href="#总体设计及流程" class="headerlink" title="总体设计及流程"></a>总体设计及流程</h2><p>整个库分为 Dispatcher，RequestHandler 及 Downloader，PicassoDrawable 等模块。</p>
+<p>Dispatcher 负责分发和处理 Action，包括提交、暂停、继续、取消、网络状态变化、重试等等。</p>
+<p>简单的讲就是 Picasso 收到加载及显示图片的任务，创建 Request 并将它交给 Dispatcher，Dispatcher 分发任务到具体 RequestHandler，任务通过 MemoryCache 及 Handler(数据获取接口) 获取图片，图片获取成功后通过 PicassoDrawable 显示到 Target 中。</p>
+<p>需要注意的是上面 Data 的 File system 部分，Picasso 没有自定义本地缓存的接口，默认使用 http 的本地缓存，API 9 以上使用 okhttp，以下使用 Urlconnection，所以如果需要自定义本地缓存就需要重定义 Downloader。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/12/11/picasso/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   
