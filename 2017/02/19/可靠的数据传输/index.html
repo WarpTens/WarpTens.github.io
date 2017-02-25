@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>可靠的数据传输 | WarpTens</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="可靠数据传输经完全可靠信道的可靠数据传输:rdt 1.0有了完全可靠的信道，接收端不需要提供任何反馈信息给发送方，且接收 方接受数据的速率和发送方一样快，因此也没有必要请求发送方发送慢一点。
+
+经具有比特差错信道的可靠数据传输:rdt 2.0假定所有发送的分组（虽然有些比特可能受损）将按其发送的顺序被接收
+当打电话和人交流时，当对方说出一句话时，接收者听到，理解记住后可能会说 “ 好的 “ 那么发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="可靠的数据传输">
+<meta property="og:url" content="http://yoursite.com/2017/02/19/可靠的数据传输/index.html">
+<meta property="og:site_name" content="WarpTens">
+<meta property="og:description" content="可靠数据传输经完全可靠信道的可靠数据传输:rdt 1.0有了完全可靠的信道，接收端不需要提供任何反馈信息给发送方，且接收 方接受数据的速率和发送方一样快，因此也没有必要请求发送方发送慢一点。
+
+经具有比特差错信道的可靠数据传输:rdt 2.0假定所有发送的分组（虽然有些比特可能受损）将按其发送的顺序被接收
+当打电话和人交流时，当对方说出一句话时，接收者听到，理解记住后可能会说 “ 好的 “ 那么发">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104143911721?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104143920086?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104143929133?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104143941649?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104144243566?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104144252560?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104144356973?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104144408942?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104144532551?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104144541970?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104144551208?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104144604002?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104144755365?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-02-19T07:40:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="可靠的数据传输">
+<meta name="twitter:description" content="可靠数据传输经完全可靠信道的可靠数据传输:rdt 1.0有了完全可靠的信道，接收端不需要提供任何反馈信息给发送方，且接收 方接受数据的速率和发送方一样快，因此也没有必要请求发送方发送慢一点。
+
+经具有比特差错信道的可靠数据传输:rdt 2.0假定所有发送的分组（虽然有些比特可能受损）将按其发送的顺序被接收
+当打电话和人交流时，当对方说出一句话时，接收者听到，理解记住后可能会说 “ 好的 “ 那么发">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170104143911721?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+   
+  
+    <link rel="alternative" href="/atom.xml" title="WarpTens" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://avatar.csdn.net/0/6/8/1_warptens.jpg?1481643481559" class="js-avatar">
+			
+			
+		</a>
+
+		<hgroup>
+		  <a id="follow" 
+        href='
+          
+    javascript:(
+    /*
+     * Copyright (C) 2015 Rocko (http://rocko.xyz) <rocko.zxp@gmail.com>
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    function go() {
+    
+    function c() {
+        var e = document.createElement("link");
+        e.setAttribute("type", "text/css");
+        e.setAttribute("rel", "stylesheet");
+        e.setAttribute("href", f);
+        e.setAttribute("class", l);
+        document.body.appendChild(e)
+    }
+ 
+    function h() {
+        var e = document.getElementsByClassName(l);
+        for (var t = 0; t < e.length; t++) {
+            document.body.removeChild(e[t])
+        }
+    }
+ 
+    function p() {
+        var e = document.createElement("div");
+        e.setAttribute("class", a);
+        document.body.appendChild(e);
+        setTimeout(function() {
+            document.body.removeChild(e)
+        }, 100)
+    }
+ 
+    function d(e) {
+        return {
+            height : e.offsetHeight,
+            width : e.offsetWidth
+        }
+    }
+ 
+    function v(i) {
+        var s = d(i);
+        return s.height > e && s.height < n && s.width > t && s.width < r
+    }
+ 
+    function m(e) {
+        var t = e;
+        var n = 0;
+        while (!!t) {
+            n += t.offsetTop;
+            t = t.offsetParent
+        }
+        return n
+    }
+ 
+    function g() {
+        var e = document.documentElement;
+        if (!!window.innerWidth) {
+            return window.innerHeight
+        } else if (e && !isNaN(e.clientHeight)) {
+            return e.clientHeight
+        }
+        return 0
+    }
+ 
+    function y() {
+        if (window.pageYOffset) {
+            return window.pageYOffset
+        }
+        return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+    }
+ 
+    function E(e) {
+        var t = m(e);
+        return t >= w && t <= b + w
+    }
+ 
+    var songs = [
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-Fashion_Show.mp3",
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-Wake-Live.mp3",
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-outside.mp3",
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-sunburst.mp3"
+    ];
+
+    function S() {
+        var e = document.getElementById("audio_element_id");
+        if(e != null){
+            var index = parseInt(e.getAttribute("curSongIndex"));
+            if(index > songs.length - 2) {
+                index = 0;
+            } else {
+                index++;
+            }
+            e.setAttribute("curSongIndex", index);
+            N();
+        }
+
+        e.src = i;
+        e.play()
+    }
+ 
+    function x(e) {
+        e.className += " " + s + " " + o
+    }
+ 
+    function T(e) {
+        e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+    }
+ 
+    function N() {
+        var e = document.getElementsByClassName(s);
+        var t = new RegExp("\\b" + s + "\\b");
+        for (var n = 0; n < e.length; ) {
+            e[n].className = e[n].className.replace(t, "")
+        }
+    }
+
+    function initAudioEle() {
+        var e = document.getElementById("audio_element_id");
+        if(e === null){
+            e = document.createElement("audio");
+            e.setAttribute("class", l);
+            e.setAttribute("curSongIndex", 0);
+            e.id = "audio_element_id";
+            e.loop = false;
+            e.bgcolor = 0;
+            e.addEventListener("canplay", function() {
+            setTimeout(function() {
+                x(k)
+            }, 500);
+            setTimeout(function() {
+                N();
+                p();
+                for (var e = 0; e < O.length; e++) {
+                    T(O[e])
+                }
+            }, 15500)
+        }, true);
+        e.addEventListener("ended", function() {
+            N();
+            h();
+            go();
+        }, true);
+        e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+        document.body.appendChild(e);
+        }
+    }
+    
+    initAudioEle();
+    var e = 30;
+    var t = 30;
+    var n = 350;
+    var r = 350;
+
+    var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+    var i = songs[curSongIndex];
+    
+    var s = "mw-harlem_shake_me";
+    var o = "im_first";
+    var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+    var a = "mw-strobe_light";
+
+    var f = "http://thereisnospon.com/css.css";
+    
+    var l = "mw_added_css";
+    var b = g();
+    var w = y();
+    var C = document.getElementsByTagName("*");
+    var k = null;
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            if (E(A)) {
+                k = A;
+                break
+            }
+        }
+    }
+    if (A === null) {
+        console.warn("Could not find a node of the right size. Please try a different page.");
+        return
+    }
+    c();
+    S();
+    var O = [];
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            O.push(A)
+        }
+    }
+    })()
+    
+        '>
+      <i class="fa fa-music"></i> &nbsp High一下 </i></a>
+		  <h1 class="header-author"><a href="/">WarpTens</a></h1>
+
+		 
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/gate">传送门</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/Thereisnospon" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/2195562155?is_all=1" title="weibo">weibo</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/acm/" style="font-size: 15px;">acm</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/cpp/" style="font-size: 20px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/总结/" style="font-size: 10px;">总结</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io/">hexo官网</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://mindhacks.cn/">刘未鹏</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://coolshell.cn/">酷壳</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.kdwycz.com/">kdwycz</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.aemiot.com/">泛叶江湖</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://lattez.host.smartgslb.com/">Lattez</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/mummyding/">MummyDing</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.thereisnospon.com/">Thereisnospon</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://rocko.xyz/">rocko</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">WarpTens</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://avatar.csdn.net/0/6/8/1_warptens.jpg?1481643481559" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">WarpTens</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/gate">传送门</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Thereisnospon" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/2195562155?is_all=1" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-可靠的数据传输" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/19/可靠的数据传输/" class="article-date">
+  	<time datetime="2017-02-19T07:39:43.000Z" itemprop="datePublished">2017-02-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      可靠的数据传输
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="可靠数据传输"><a href="#可靠数据传输" class="headerlink" title="可靠数据传输"></a>可靠数据传输</h2><h3 id="经完全可靠信道的可靠数据传输-rdt-1-0"><a href="#经完全可靠信道的可靠数据传输-rdt-1-0" class="headerlink" title="经完全可靠信道的可靠数据传输:rdt 1.0"></a>经完全可靠信道的可靠数据传输:rdt 1.0</h3><p>有了完全可靠的信道，接收端不需要提供任何反馈信息给发送方，且接收 方接受数据的速率和发送方一样快，因此也没有必要请求发送方发送慢一点。</p>
+<p><img src="http://img.blog.csdn.net/20170104143911721?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="经具有比特差错信道的可靠数据传输-rdt-2-0"><a href="#经具有比特差错信道的可靠数据传输-rdt-2-0" class="headerlink" title="经具有比特差错信道的可靠数据传输:rdt 2.0"></a>经具有比特差错信道的可靠数据传输:rdt 2.0</h3><p>假定所有发送的分组（虽然有些比特可能受损）将按其发送的顺序被接收</p>
+<p>当打电话和人交流时，当对方说出一句话时，接收者听到，理解记住后可能会说 “ 好的 “ 那么发送者说下一句话，如果接受者没有听清，就会说 ”你说什么，请再说一遍”。 这样发送者可以决定再复述一遍。这种协议使用了<strong>肯定确认</strong>和<strong>否定确认</strong>，使得接受方可以让发送方知道哪些内容被正确接受，哪些内容有误需要重复。</p>
+<p>基于这样的重传的可靠数据传输协议称为<strong>自动重传请求协议(ARQ)</strong></p>
+<p>ARQ 需要三种协议功能处理比特出错的情况：</p>
+<ol>
+<li><p><strong>差错检测</strong> ： 首先需要一种机制使接受方检测到何时出现了比特差错</p>
+</li>
+<li><p><strong>接受方反馈</strong>：发送方需要了解接受方情况的唯一途径就是让接受方提供明确的反馈信息给发送方</p>
+</li>
+<li><p><strong>重传</strong>：接收方收到有差错的分组时，发送方将重传该分组。</p>
+</li>
+</ol>
+<p>注意：</p>
+<p>rdt 2.0 在等待ack或者nak的状态时，不能从上层获得更多数据，因此发送方不会发送一块新数据，除非发送方确信接受方已正确接收到一个分组。因此 rdt 2.0这样的协议称为 <strong>停等协议</strong></p>
+<p><img src="http://img.blog.csdn.net/20170104143920086?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="rdt-2-0-的致命缺陷-及-rdt-2-1"><a href="#rdt-2-0-的致命缺陷-及-rdt-2-1" class="headerlink" title="rdt 2.0 的致命缺陷 及 rdt 2.1"></a>rdt 2.0 的致命缺陷 及 rdt 2.1</h4><p>没有考虑到 ack 或者 nak 分组的受损的可能性，如果接受到受损的ack或者nak 分组，发送方无法得知接受方是否正确接受上一块发送的数据。</p>
+<p>处理受损ack或nak的三种可能性:</p>
+<ol>
+<li><p>询问接受者发送了什么，但是这个询问可能又会出错，因此。。</p>
+</li>
+<li><p>增加足够多的校验和比特，使得发送方不仅可以检测差错还能恢复，对于只产生差错不丢失分组的信道，这样可以直接解决问题。</p>
+</li>
+<li><p>当发送方收到受损的ack或者nak时，重传当前分组。但是接受方并不知道它上次发送的ack或者nak是否被发送方正确接受，因此接收方不知道收到的分组是新的分组还是重传的分组。</p>
+</li>
+</ol>
+<p>解决第3个问题的方法是：在数据分组添加一个字段，让发送方对其数据分组编号，接收方只需检查序号可确定分组是否是一次重传。对于停等协议的这样的简单情况只需用一个比特就够了</p>
+<p><img src="http://img.blog.csdn.net/20170104143929133?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170104143941649?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="rdt-2-2"><a href="#rdt-2-2" class="headerlink" title="rdt 2.2"></a>rdt 2.2</h4><p>rdt 2.1 中如果接受者收到错误分组，只需要对上次正确接受的分组发送一个ack也可以实现nak的效果，发送方接受到同一个分组的两个ack，就知道接收方没有正确接受后面的分组了。</p>
+<p><img src="http://img.blog.csdn.net/20170104144243566?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170104144252560?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="具有比特差错的丢包信道的可靠数据传输-rdt-3-0"><a href="#具有比特差错的丢包信道的可靠数据传输-rdt-3-0" class="headerlink" title="具有比特差错的丢包信道的可靠数据传输: rdt: 3.0"></a>具有比特差错的丢包信道的可靠数据传输: rdt: 3.0</h3><p>如果发送者发送了一个分组，该分组丢失，或者接受方对该分组的ack丢失，这两种情况下，发送方都收不到应当到来的接收方的响应，如果发送方愿意等待足够长的时间确定分组已经丢失，那么只需要重传该分组就可以了。</p>
+<p>很明显发送方至少要等待发送方与接收方之间的一个往返时延+接收方处理分组的时间。</p>
+<p>为了实现基于时间的重传机制，需要一个倒计数定时器：</p>
+<ol>
+<li><p>每次发送一个分组（包括第一个分组和重传分组）时启动一个定时器</p>
+</li>
+<li><p>响应定时器中断（采取适当操作）</p>
+</li>
+<li><p>终止定时器</p>
+</li>
+</ol>
+<p><img src="http://img.blog.csdn.net/20170104144356973?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170104144408942?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="流水线可靠数据传输协议"><a href="#流水线可靠数据传输协议" class="headerlink" title="流水线可靠数据传输协议"></a>流水线可靠数据传输协议</h3><p>由于停等协议的发送方利用率非常低，需要采用流水线的方式发送分组，采取流水线需要</p>
+<ol>
+<li><p>增加序号范围</p>
+</li>
+<li><p>协议的发送方和接收方必须缓存多个分组</p>
+</li>
+<li><p>所需序号范围和对缓冲的要求取决于数据传输协议如何处理丢失：包括 <strong>回退n步</strong>，<strong>选择重传</strong></p>
+</li>
+</ol>
+<h3 id="回退N步（GBN）-协议"><a href="#回退N步（GBN）-协议" class="headerlink" title="回退N步（GBN） 协议"></a>回退N步（GBN） 协议</h3><p><img src="http://img.blog.csdn.net/20170104144532551?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>GBN 协议允许发送方发送多个分组（当有多个分组可用时），而不需等待确认，但它也受限于在流水线中未确认的分组数不能超过某个最大允许数 N。</p>
+<p>N 常被称为窗口长度，GBN协议也常被称为滑动窗口协议。</p>
+<p>GBN 发送方必须响应三种类型的事件：</p>
+<ol>
+<li><p>上层调用。当上层调用时，先检查发送窗口是否已满，如果窗口未满，产生一个分组并发送，如果窗口已满，将数据返回给上层，然后上层可能过一会儿再试。</p>
+</li>
+<li><p>收到一个 ACK 在GBN协议中，对需要为n的分组的确认采取累积确认，表明接受方已经正确接受到序号为n的以前包括n在内的所有分组。</p>
+</li>
+<li><p>超时事件 如果出现超时，发送方重传所有已发送但未被确认的分组</p>
+</li>
+</ol>
+<p><img src="http://img.blog.csdn.net/20170104144541970?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>在gbn中，接受者如果序号k的分组已经交付给上层，那么比k小的也已经交付。</p>
+<p>在gbn中，接收方丢弃所有失序分组，当接收方等待分组n 时，分组n+1 到了，这时会丢掉分组n+1,等到发送方发现超时后，重传分组n,和分组n+1及后面的分组。这种方法的优点是接收缓存简单。</p>
+<p>发送方需要维护窗口的上下边界及nextsequm在该窗口的位置，接收方需要维护的唯一信息是下一个按序接收的分组的序号。</p>
+<p><img src="http://img.blog.csdn.net/20170104144551208?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170104144604002?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="选择重传-SR-协议"><a href="#选择重传-SR-协议" class="headerlink" title="选择重传(SR)协议"></a>选择重传(SR)协议</h3><p><img src="http://img.blog.csdn.net/20170104144755365?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>顾名思义，选择重传协议通过让发送方仅重传那些它怀疑在接收方出错的分组而避免了不必要的重传。</p>
+<h4 id="SR-发送方的事件"><a href="#SR-发送方的事件" class="headerlink" title="SR 发送方的事件"></a>SR 发送方的事件</h4><p><strong>从上层获得数据</strong></p>
+<p>从上层获得数据时，检查下一个可用于该分组的序号，如果该序号位于发送方的窗口内，将数据打包发送，否则就像在gbn中一样，要么将数据缓存，要么将他返回给上层以便以后传输。</p>
+<p><strong>超时</strong></p>
+<p>现在每个分组必须用用自己的逻辑定时器，因为超时发生后只能发送一个分组。</p>
+<p><strong>收到ACK</strong></p>
+<p>倘若该分组序号在窗口内，发送方将那个被确认的分组标记为已接收。</p>
+<p>如果该分组的序号等于 send_base ，窗口基序号向前移动到具有最小序号的未确认分组处。</p>
+<p>如果窗口移动了且有序号落在窗口内的未发送分组，则发送这些分组。</p>
+<h4 id="SR-接受者事件"><a href="#SR-接受者事件" class="headerlink" title="SR 接受者事件"></a>SR 接受者事件</h4><p>SR 接收方将确认一个分组而不管其是否按序，失序分组将被缓存直到所有丢失分组收到为止，这时才可以将一批分组按序交付给上层。</p>
+<p><strong>序号在 [rcv_base ,rcv_base+N-1] 内的分组被正确接收</strong> 一个选择ACK 被会送给发送方。如果该分组以前没有接收过，则缓存该分组。如果该分组的序号等于接收窗口的基序号 rcv_base 则该分组以及之前缓存的序号连续的分组交付给上层。比如已收到 分组序号为 2 且此时 rcv_base 时，之前的失序分组 3 4 5 可以和2 一起交付给上层。</p>
+<p><strong>序号在[rcv_base-N,rcv_base -1] 内的分组被正确接收</strong> 此时必须产生一个ack，即使接收方已经确认过。这一步很重要，接收方重新确认已收到的那些序号小于当前窗口基序号的分组，因为接收方和发送方看到的窗口并不总是一致。</p>
+<p><strong>其他情况</strong></p>
+<p>忽略分组</p>
+<p>对SR协议而言，窗口长度必须小于或等于序号空间大小的一半。</p>
+<h3 id="可靠数据传输机制及其用途"><a href="#可靠数据传输机制及其用途" class="headerlink" title="可靠数据传输机制及其用途"></a>可靠数据传输机制及其用途</h3><p><strong>检验和</strong></p>
+<p>检测一个传输分组中的比特错误</p>
+<p><strong>定时器</strong></p>
+<p>用于 超时/重传 一个分组。 可能因为一个分组或者它的ACK 在信道丢失了，需要超时重传。</p>
+<p><strong>序号</strong></p>
+<p>用于发送方流向接受方的数据流的分组按序编号，用于检测丢失分组，失序分组，相同序号的分组的确认可以让接收方检测出一个分组的冗余。</p>
+<p><strong>确认</strong></p>
+<p>用于接收方通知发送方一个分组正确接收。确认可以是累积的或者逐个的。</p>
+<p><strong>否定确认</strong></p>
+<p>用于发送方告知某个分组未被正确接收</p>
+<p><strong>窗口，流水线</strong></p>
+<p>通过限制窗口长度，限制发送方发送速率。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/01/03/TCP协议/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="可靠的数据传输" data-title="可靠的数据传输" data-url="http://yoursite.com/2017/02/19/可靠的数据传输/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 WarpTens
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme extend <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    },
+    displayAlign: "left",
+    displayIndent: "2em"
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

@@ -3,17 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015 | WarpTens</title>
+  <title>WarpTens</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
+  <meta name="description" content="运输层协议为运行在不同主机上的应用进程间提供了逻辑通信。
+TCP/UDP 最基本的责任是将两个端系统间ip的交付服务扩展为运行在端系统上的两个进程之间的交付服务，将主机间交付服务扩展到进程间交付称为运输层的多路复用与多路分解。
+IP的服务模型是尽力而为交付的服务，是不可靠服务。
+运输层如何实现分解服务？在主机的每个套接字能够分配一个端口号，当报文到达主机时，运输层检查报文段中的端口号，并将其定向到">
+<meta property="og:type" content="article">
 <meta property="og:title" content="WarpTens">
-<meta property="og:url" content="http://yoursite.com/archives/2015/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/12/29/传输层与UDP协议/index.html">
 <meta property="og:site_name" content="WarpTens">
-<meta property="og:description">
+<meta property="og:description" content="运输层协议为运行在不同主机上的应用进程间提供了逻辑通信。
+TCP/UDP 最基本的责任是将两个端系统间ip的交付服务扩展为运行在端系统上的两个进程之间的交付服务，将主机间交付服务扩展到进程间交付称为运输层的多路复用与多路分解。
+IP的服务模型是尽力而为交付的服务，是不可靠服务。
+运输层如何实现分解服务？在主机的每个套接字能够分配一个端口号，当报文到达主机时，运输层检查报文段中的端口号，并将其定向到">
+<meta property="og:image" content="http://img.blog.csdn.net/20170104143149952?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-01-04T06:51:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WarpTens">
-<meta name="twitter:description">
+<meta name="twitter:description" content="运输层协议为运行在不同主机上的应用进程间提供了逻辑通信。
+TCP/UDP 最基本的责任是将两个端系统间ip的交付服务扩展为运行在端系统上的两个进程之间的交付服务，将主机间交付服务扩展到进程间交付称为运输层的多路复用与多路分解。
+IP的服务模型是尽力而为交付的服务，是不可靠服务。
+运输层如何实现分解服务？在主机的每个套接字能够分配一个端口号，当报文到达主机时，运输层检查报文段中的端口号，并将其定向到">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170104143149952?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
    
   
     <link rel="alternative" href="/atom.xml" title="WarpTens" type="application/atom+xml">
@@ -391,115 +403,120 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-传输层与UDP协议" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2016/12/29/传输层与UDP协议/" class="article-date">
+  	<time datetime="2016-12-29T03:38:34.000Z" itemprop="datePublished">2016-12-29</time>
+</a>
+    </div>
   
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
+    <div class="article-entry" itemprop="articleBody">
       
+        <p>运输层协议为运行在不同主机上的应用进程间提供了逻辑通信。</p>
+<p>TCP/UDP 最基本的责任是将两个端系统间ip的交付服务扩展为运行在端系统上的两个进程之间的交付服务，将主机间交付服务扩展到进程间交付称为运输层的多路复用与多路分解。</p>
+<p>IP的服务模型是尽力而为交付的服务，是不可靠服务。</p>
+<h4 id="运输层如何实现分解服务？"><a href="#运输层如何实现分解服务？" class="headerlink" title="运输层如何实现分解服务？"></a>运输层如何实现分解服务？</h4><p>在主机的每个套接字能够分配一个端口号，当报文到达主机时，运输层检查报文段中的端口号，并将其定向到相应的套接字，然后报文段中的数据通过套接字进入其所连接的进程。</p>
+<h3 id="多路复用与多路分解"><a href="#多路复用与多路分解" class="headerlink" title="多路复用与多路分解"></a>多路复用与多路分解</h3><p><strong>一个udp套接字由一个二元组标识</strong></p>
+<p>udp套接字包括：目的ip地址，目的端口。</p>
+<p>即：如果两个udp报文段有不同的源ip地址/源端口,但是具有相同的目的ip地址和目的端口，那么这两个报文将通过相同的套接字定向到相同的目的进程。</p>
+<p><strong>一个tcp套接字由一个四元组标识</strong></p>
+<p>tcp 套接字由：（源ip，源端口，目的ip，目的端口） 标识</p>
+<p>当两个具有不同源ip地址或源端口的到达的tcp报文被定向到两个不同套接字，除非tcp报文段携带了初始创建连接的请求。</p>
+<h2 id="无连接传输：UDP"><a href="#无连接传输：UDP" class="headerlink" title="无连接传输：UDP"></a>无连接传输：UDP</h2><p>运输层最低限度必须提供一种复用/分解服务，以便在网络与正确的应用级进程之间传递数据。</p>
+<p>udp只是做运输协议能够做的最少工作，除了复用/分解功能及少量大差错检测外，几乎没有对ip层增加别的东西。</p>
+<p>DNS 是使用udp协议的一个例子。</p>
+<p><img src="http://img.blog.csdn.net/20170104143149952?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="既然tcp可以提供可靠传输服务，udp不能，为什么还需要udp协议呢？"><a href="#既然tcp可以提供可靠传输服务，udp不能，为什么还需要udp协议呢？" class="headerlink" title="既然tcp可以提供可靠传输服务，udp不能，为什么还需要udp协议呢？"></a>既然tcp可以提供可靠传输服务，udp不能，为什么还需要udp协议呢？</h4><ol>
+<li><p><strong>关于何时.发送什么数据的应用层控制更为精细。</strong>： tcp会使用拥塞控制遏制运输层发送方发送速率，且仍继续发送数据报文直到目的主机确认，而不管可靠交付需要多长时间。但是一些实时应用需要更高的速率，不希望过分的延迟报文段传送，且能容忍一些数据丢失。</p>
+</li>
+<li><p><strong>无需建立连接</strong> ： tcp需要三次握手，udp不需要，因此udp不会引入建立连接的时延</p>
+</li>
+<li><p><strong>无连接状态</strong>：tcp需要维护连接状态（接收方发送方缓存，拥塞控制参数，序号，确认号等）。udp不维护连接状态，不跟踪这些参数，可以支持更多的活跃用户。</p>
+</li>
+<li><p><strong>分组首部开销小</strong></p>
+</li>
+</ol>
+<p>需要注意的是：</p>
+<ol>
+<li><p>udp缺少拥塞控制能够导致udp发送方和接收方之间的高丢包率，并击垮了tcp</p>
+</li>
+<li><p>使用udp的应用是可以实现可靠数据传输的，这可通过应用程序自身建立可靠性机制来完成。</p>
+</li>
+</ol>
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
+    </div>
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/12/13/javaRegex/" class="archive-article-date">
-  	<time datetime="2015-12-13T10:41:06.000Z" itemprop="datePublished">Dec 13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/13/javaRegex/">JAVA正则表达式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/12/12/javaMultiThread/" class="archive-article-date">
-  	<time datetime="2015-12-12T05:27:30.000Z" itemprop="datePublished">Dec 12</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/12/javaMultiThread/">java多线程总结</a>
-    </h1>
+    <a href="/2017/01/03/TCP协议/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
+  
+    <a href="/2016/12/21/lisp/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">lisp</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/12/11/javaIoStream/" class="archive-article-date">
-  	<time datetime="2015-12-11T07:51:30.000Z" itemprop="datePublished">Dec 11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/11/javaIoStream/">JAVA-IO流总结</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/总结/">总结</a></li></ul>
-	</div>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="传输层与UDP协议" data-title="" data-url="http://yoursite.com/2016/12/29/传输层与UDP协议/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
 
 </div>
       <footer id="footer">
@@ -525,8 +542,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false

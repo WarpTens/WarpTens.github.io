@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015 | WarpTens</title>
+  <title>WarpTens</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="WarpTens">
-<meta property="og:url" content="http://yoursite.com/archives/2015/index.html">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="WarpTens">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
@@ -393,114 +393,262 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-viewEventDispatch" class="article article-type-post" itemscope itemprop="blogPost">
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/12/13/javaRegex/" class="archive-article-date">
-  	<time datetime="2015-12-13T10:41:06.000Z" itemprop="datePublished">Dec 13</time>
+    <div class="article-meta">
+      <a href="/2016/02/01/viewEventDispatch/" class="article-date">
+  	<time datetime="2016-02-01T12:11:12.000Z" itemprop="datePublished">2016-02-01</time>
 </a>
-        </div>
-    	 
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/13/javaRegex/">JAVA正则表达式</a>
+      <a class="article-title" href="/2016/02/01/viewEventDispatch/">Android 事件分发机制解析</a>
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><em>事件序列</em>　: 在屏幕上点击的瞬间会产生　ACTION_DOWN 事件，紧跟着的滑动的 ACTION_MOVE　事件　,到最后的　ACTION_DOWN 　为一个完整的事件序列</p>
+<p><em>传递顺序</em>  : 当一个事件产生后，将由顺序　Activity -&gt; Window -&gt; DecorView -&gt; ViewGroup -&gt; View 逐层分发, 在获得一个事件后，先判断是否拦截，如果拦截,则该事件序列之后的事件不需要判断是否拦截，直接交由它处理，如果不拦截，则分发给子view,子View 重复该分发的步骤并返回是否处理，如果子view不处理，则自己处理该事件，如果它不处理，即onTouchEvent 返回 false 则将事件抛至上层处理,直到Activity</p>
+<p><em>事件拦截</em>  : 如果一个 ViewGroup中的 onInterceptTouchEvent 返回 true ，表示当前ViewGroup 要拦截当前事件,则该ViewGroup的onTouchEvent将会调用；如果不拦截，将会把事件分发给子view.<br>注意拦截ACION_DOWN与其他ACTION的差异:</p>
+<ul>
+<li>第1种情况：如果ACTION_DOWN的事件没有被拦截，顺利找到了TargetView，那么后续的MOVE与UP都能够下发。如果后续的MOVE与UP下发时还有继续拦截的话，事件只能传递到拦截层，并且发出ACTION_CANCEL。</li>
+<li>第2种情况：如果ACITON_DOWN的事件下发时被拦截，导致没有找到TargetView，那么后续的MOVE与UP都无法向下派发了，在Activity层就终止了传递。</li>
+</ul>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/02/01/viewEventDispatch/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-javaRegex" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/13/javaRegex/" class="article-date">
+  	<time datetime="2015-12-13T10:41:06.000Z" itemprop="datePublished">2015-12-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/13/javaRegex/">JAVA正则表达式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>转载自 <a href="http://www.runoob.com/java/java-regular-expressions.html">java正则表达式</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<br>正则表达式定义了字符串的模式。<br>正则表达式可以用来搜索、编辑或处理文本。<br>正则表达式并不仅限于某一种语言，但是在每种语言中有细微的差别。<br>Java正则表达式和Perl的是最为相似的。</p>
+<blockquote>
+<ul>
+<li><strong>Pattern</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;pattern对象是一个正则表达式的编译表示。Pattern类没有公共构造方法。要创建一个Pattern对象，你必须首先调用其公共静态编译方法，它返回一个Pattern对象。该方法接受一个正则表达式作为它的第一个参数。</li>
+<li><strong>Matcher</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;Matcher对象是对输入字符串进行解释和匹配操作的引擎。与Pattern类一样，Matcher也没有公共构造方法。你需要调用Pattern对象的matcher方法来获得一个Matcher对象。</li>
+<li><strong>PatternSyntaxException</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;PatternSyntaxException是一个非强制异常类，它表示一个正则表达式模式中的语法错误。</li>
+</ul>
+</blockquote>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+        <p class="article-more-link">
+          <a  href="/2015/12/13/javaRegex/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
   </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/12/12/javaMultiThread/" class="archive-article-date">
-  	<time datetime="2015-12-12T05:27:30.000Z" itemprop="datePublished">Dec 12</time>
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-javaMultiThread" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/12/javaMultiThread/" class="article-date">
+  	<time datetime="2015-12-12T05:27:30.000Z" itemprop="datePublished">2015-12-12</time>
 </a>
-        </div>
-    	 
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/12/javaMultiThread/">java多线程总结</a>
+      <a class="article-title" href="/2015/12/12/javaMultiThread/">java多线程总结</a>
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;多线程程序在较低的层次上拓展了多任务的概念:一个程序同时执行多个任务.通常,每个任务被称为一个线程,它是线程控制的简称.可以同时运行一个以上线程的程序通常称为多线程程序.<br>&nbsp; &nbsp; &nbsp; &nbsp;那么,多进程与多线程有哪些区别呢?本质的区别在于每个进程有自己的一套变量,而多线程共享数据.这听起来似乎有些风险,但是也是这样,然而共享变量使得线程间的通信比进程之间的通信更加有效,更容易,此外,在有些操作系统中,与进程相比,线程更轻量级,创建,撤销一个线程比启动一个进程的开销要小的多.<br>&nbsp; &nbsp; &nbsp; &nbsp;在实际应用中,多线程非常有用,例如,一个浏览器可以同时下载几副图片,一个web服务器需要同时处理多个并发的请求,图形用户界面程序用一个独立的线程从宿主环境中收集用户界面的事件.接下来,介绍如何为java应用程序添加多线程能力.</p>
+</blockquote>
+<ul>
+<li>以上引用自:《JAVA 核心技术 卷一 基础知识 》</li>
+</ul>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+        <p class="article-more-link">
+          <a  href="/2015/12/12/javaMultiThread/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
   </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/12/11/javaIoStream/" class="archive-article-date">
-  	<time datetime="2015-12-11T07:51:30.000Z" itemprop="datePublished">Dec 11</time>
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-javaIoStream" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/11/javaIoStream/" class="article-date">
+  	<time datetime="2015-12-11T07:51:30.000Z" itemprop="datePublished">2015-12-11</time>
 </a>
-        </div>
-    	 
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/11/javaIoStream/">JAVA-IO流总结</a>
+      <a class="article-title" href="/2015/12/11/javaIoStream/">JAVA-IO流总结</a>
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="字节流"><a href="#字节流" class="headerlink" title="字节流"></a>字节流</h2><blockquote><p>流(stream)的概念源于UNIX中管道(pipe)的概念。在UNIX中，管道是一条不间断的字节流，用来实现程序或进程间的通信，或读写外围设备、外部文件等。<br>一个流，必有源端和目的端，它们可以是计算机内存的某些区域，也可以是磁盘文件，甚至可以是Internet上的某个URL。<br> 流的方向是重要的，根据流的方向，流可分为两类：输入流和输出流。用户可以从输入流中读取信息，但不能写它。相反，对输出流，只能往输入流写，而不能读它。<br>实际上，流的源端和目的端可简单地看成是字节的生产者和消费者，对输入流，可不必关心它的源端是什么，只要简单地从流中读数据，而对输出流，也可不知道它的目的端，只是简单地往流中写数据。<br>形象的比喻——水流 ，文件======程序 ，文件和程序之间连接一个管道，水流就在之间形成了,自然也就出现了方向：可以流进，也可以流出.便于理解，这么定义流： 流就是一个管道里面有流水，这个管道连接了文件和程序。</p>
+</blockquote>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/总结/">总结</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
+      
+        <p class="article-more-link">
+          <a  href="/2015/12/11/javaIoStream/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
     
+  </div>
+  
+</article>
 
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </nav>
+  
 </div>
       <footer id="footer">
   <div class="outer">
@@ -524,9 +672,9 @@
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: false,
+		isHome: true,
 		isPost: false,
-		isArchive: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>WarpTens</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="TCP 是面向连接的，但是其连接状态只保存在两个端系统中，tcp协议只运行在端系统中，中间的网络元素不会维护连接状态，中间的路由器对tcp连接完全视而不见，它们看到的只是数据报，而不是连接。
+TCP 是全双工的服务：如果在主机A与主机B之间建立了一条tcp连接，主机a可以向主机b传输数据，主机b也可以向主机a传输数据。
+TCP 是点对点的：即在单个发送方与单个接收方之间的连接。
+TCP 从缓存中读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WarpTens">
+<meta property="og:url" content="http://yoursite.com/2017/01/03/TCP协议/index.html">
+<meta property="og:site_name" content="WarpTens">
+<meta property="og:description" content="TCP 是面向连接的，但是其连接状态只保存在两个端系统中，tcp协议只运行在端系统中，中间的网络元素不会维护连接状态，中间的路由器对tcp连接完全视而不见，它们看到的只是数据报，而不是连接。
+TCP 是全双工的服务：如果在主机A与主机B之间建立了一条tcp连接，主机a可以向主机b传输数据，主机b也可以向主机a传输数据。
+TCP 是点对点的：即在单个发送方与单个接收方之间的连接。
+TCP 从缓存中读">
+<meta property="og:image" content="http://img.blog.csdn.net/20170103203036017?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-01-04T06:53:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WarpTens">
+<meta name="twitter:description" content="TCP 是面向连接的，但是其连接状态只保存在两个端系统中，tcp协议只运行在端系统中，中间的网络元素不会维护连接状态，中间的路由器对tcp连接完全视而不见，它们看到的只是数据报，而不是连接。
+TCP 是全双工的服务：如果在主机A与主机B之间建立了一条tcp连接，主机a可以向主机b传输数据，主机b也可以向主机a传输数据。
+TCP 是点对点的：即在单个发送方与单个接收方之间的连接。
+TCP 从缓存中读">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170103203036017?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+   
+  
+    <link rel="alternative" href="/atom.xml" title="WarpTens" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://avatar.csdn.net/0/6/8/1_warptens.jpg?1481643481559" class="js-avatar">
+			
+			
+		</a>
+
+		<hgroup>
+		  <a id="follow" 
+        href='
+          
+    javascript:(
+    /*
+     * Copyright (C) 2015 Rocko (http://rocko.xyz) <rocko.zxp@gmail.com>
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    function go() {
+    
+    function c() {
+        var e = document.createElement("link");
+        e.setAttribute("type", "text/css");
+        e.setAttribute("rel", "stylesheet");
+        e.setAttribute("href", f);
+        e.setAttribute("class", l);
+        document.body.appendChild(e)
+    }
+ 
+    function h() {
+        var e = document.getElementsByClassName(l);
+        for (var t = 0; t < e.length; t++) {
+            document.body.removeChild(e[t])
+        }
+    }
+ 
+    function p() {
+        var e = document.createElement("div");
+        e.setAttribute("class", a);
+        document.body.appendChild(e);
+        setTimeout(function() {
+            document.body.removeChild(e)
+        }, 100)
+    }
+ 
+    function d(e) {
+        return {
+            height : e.offsetHeight,
+            width : e.offsetWidth
+        }
+    }
+ 
+    function v(i) {
+        var s = d(i);
+        return s.height > e && s.height < n && s.width > t && s.width < r
+    }
+ 
+    function m(e) {
+        var t = e;
+        var n = 0;
+        while (!!t) {
+            n += t.offsetTop;
+            t = t.offsetParent
+        }
+        return n
+    }
+ 
+    function g() {
+        var e = document.documentElement;
+        if (!!window.innerWidth) {
+            return window.innerHeight
+        } else if (e && !isNaN(e.clientHeight)) {
+            return e.clientHeight
+        }
+        return 0
+    }
+ 
+    function y() {
+        if (window.pageYOffset) {
+            return window.pageYOffset
+        }
+        return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+    }
+ 
+    function E(e) {
+        var t = m(e);
+        return t >= w && t <= b + w
+    }
+ 
+    var songs = [
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-Fashion_Show.mp3",
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-Wake-Live.mp3",
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-outside.mp3",
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-sunburst.mp3"
+    ];
+
+    function S() {
+        var e = document.getElementById("audio_element_id");
+        if(e != null){
+            var index = parseInt(e.getAttribute("curSongIndex"));
+            if(index > songs.length - 2) {
+                index = 0;
+            } else {
+                index++;
+            }
+            e.setAttribute("curSongIndex", index);
+            N();
+        }
+
+        e.src = i;
+        e.play()
+    }
+ 
+    function x(e) {
+        e.className += " " + s + " " + o
+    }
+ 
+    function T(e) {
+        e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+    }
+ 
+    function N() {
+        var e = document.getElementsByClassName(s);
+        var t = new RegExp("\\b" + s + "\\b");
+        for (var n = 0; n < e.length; ) {
+            e[n].className = e[n].className.replace(t, "")
+        }
+    }
+
+    function initAudioEle() {
+        var e = document.getElementById("audio_element_id");
+        if(e === null){
+            e = document.createElement("audio");
+            e.setAttribute("class", l);
+            e.setAttribute("curSongIndex", 0);
+            e.id = "audio_element_id";
+            e.loop = false;
+            e.bgcolor = 0;
+            e.addEventListener("canplay", function() {
+            setTimeout(function() {
+                x(k)
+            }, 500);
+            setTimeout(function() {
+                N();
+                p();
+                for (var e = 0; e < O.length; e++) {
+                    T(O[e])
+                }
+            }, 15500)
+        }, true);
+        e.addEventListener("ended", function() {
+            N();
+            h();
+            go();
+        }, true);
+        e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+        document.body.appendChild(e);
+        }
+    }
+    
+    initAudioEle();
+    var e = 30;
+    var t = 30;
+    var n = 350;
+    var r = 350;
+
+    var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+    var i = songs[curSongIndex];
+    
+    var s = "mw-harlem_shake_me";
+    var o = "im_first";
+    var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+    var a = "mw-strobe_light";
+
+    var f = "http://thereisnospon.com/css.css";
+    
+    var l = "mw_added_css";
+    var b = g();
+    var w = y();
+    var C = document.getElementsByTagName("*");
+    var k = null;
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            if (E(A)) {
+                k = A;
+                break
+            }
+        }
+    }
+    if (A === null) {
+        console.warn("Could not find a node of the right size. Please try a different page.");
+        return
+    }
+    c();
+    S();
+    var O = [];
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            O.push(A)
+        }
+    }
+    })()
+    
+        '>
+      <i class="fa fa-music"></i> &nbsp High一下 </i></a>
+		  <h1 class="header-author"><a href="/">WarpTens</a></h1>
+
+		 
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/gate">传送门</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/Thereisnospon" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/2195562155?is_all=1" title="weibo">weibo</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/acm/" style="font-size: 15px;">acm</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/cpp/" style="font-size: 20px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/总结/" style="font-size: 10px;">总结</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io/">hexo官网</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://mindhacks.cn/">刘未鹏</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://coolshell.cn/">酷壳</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.kdwycz.com/">kdwycz</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.aemiot.com/">泛叶江湖</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://lattez.host.smartgslb.com/">Lattez</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/mummyding/">MummyDing</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.thereisnospon.com/">Thereisnospon</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://rocko.xyz/">rocko</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">WarpTens</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://avatar.csdn.net/0/6/8/1_warptens.jpg?1481643481559" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">WarpTens</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/gate">传送门</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Thereisnospon" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/2195562155?is_all=1" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-TCP协议" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/03/TCP协议/" class="article-date">
+  	<time datetime="2017-01-03T09:16:34.000Z" itemprop="datePublished">2017-01-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>TCP 是<strong>面向连接</strong>的，但是其连接状态只保存在两个端系统中，tcp协议只运行在端系统中，中间的网络元素不会维护连接状态，中间的路由器对tcp连接完全视而不见，它们看到的只是数据报，而不是连接。</p>
+<p>TCP 是<strong>全双工的服务</strong>：如果在主机A与主机B之间建立了一条tcp连接，主机a可以向主机b传输数据，主机b也可以向主机a传输数据。</p>
+<p>TCP 是<strong>点对点的</strong>：即在单个发送方与单个接收方之间的连接。</p>
+<p>TCP 从缓存中读取并放入报文段中的数据数量受限于<strong>最大报文长度 MSS（Maximum Segment Size）</strong>,MSS 通常根据最初始确定的由本地发送主机发送的<strong>最大链路帧长度（最大传输单元 Maximum Transmission Unit MTU）</strong>来设置。通常MTU 为 1500 字节，典型的tcp首部为40字节，因此典型的tcp的 MSS 为1460字节。</p>
+<h3 id="TCP-报文段结构"><a href="#TCP-报文段结构" class="headerlink" title="TCP 报文段结构"></a>TCP 报文段结构</h3><p>TCP 报文段由首部字段和一个数据字段组成。</p>
+<p>首部包括:</p>
+<ul>
+<li><p>源端口号，目的端口号，各16比特</p>
+</li>
+<li><p>序号，确认号。各32比特</p>
+</li>
+<li><p>接收窗口长度 16比特 。用于接收方愿意接收的数据数量</p>
+</li>
+<li><p>首部长度 4 比特。因为tcp存在选项字段，因此tcp首部长度可变</p>
+</li>
+<li><p>可选与变长的选项字段。</p>
+</li>
+<li><p>标识字段 6 比特。如 ACK,SYN,FIN 等。</p>
+</li>
+</ul>
+<p><strong>序号</strong>：该报文段的首字节的字节流编号</p>
+<p><strong>确认号</strong>：对于确认号n，表示n-1及之前的字节已经正确按序接收，希望获取从n开始的数据。因此tcp也被称为是提供累积确认的。</p>
+<p><strong>捎带</strong>： 例如：对客户发送到服务器的数据的确认被放在服务器发送到客户的数据的报文中。</p>
+<h3 id="往返时间与超时"><a href="#往返时间与超时" class="headerlink" title="往返时间与超时"></a>往返时间与超时</h3><p><strong>样本RTT （SampleRTT）</strong> 从报文段被发出到对该报文段的确认被接收之间的时间量，大多数tcp实现仅在某个时刻做一次SampleRTT 测量，而不是每个发送的报文进行测量。TCP 绝不为重传的报文段计算SampleRTT </p>
+<p><strong>EstimatedRTT(SampleRTT 均值)</strong> 一旦获取一个新的 SampleRTT ,会计算新的 EstimatedRTT 。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">EstimatedRTT=(1-a)×EstimatedRTT+a×SampleRTT</span><br></pre></td></tr></table></figure>
+<p>a 的参考值为0.125</p>
+<p><strong>DevRTT(RTT 偏差)</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DevRTT=(1-b)×DevRTT+b×|SampleRTT-EstimatedRTT|</span><br></pre></td></tr></table></figure>
+<p><strong>超时时间间隔</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">TimeoutInterval=EstimatedRTT+4×DevRTT</span><br></pre></td></tr></table></figure>
+<h3 id="可靠的数据传输"><a href="#可靠的数据传输" class="headerlink" title="可靠的数据传输"></a>可靠的数据传输</h3><p>TCP 在 IP 的不可靠尽力而为服务上创建了一种可靠数据传输服务，TCP的可靠数据传输服务确保一个进程从其接收缓存中读取出来的数据流是无损坏，无间隔，非冗余和按序的数据流。</p>
+<p>累积确认的ACK在新的超时发生前到达，可以避免不必要的重传。</p>
+<p><strong>超时间隔加倍</strong></p>
+<p>每次tcp超时重传时都将下一次的超时时间间隔设置为先前值的两倍。</p>
+<h4 id="快速重传"><a href="#快速重传" class="headerlink" title="快速重传"></a>快速重传</h4><p>超时间隔加倍可能导致超时时间相对比较长，但是通常可以在超时时间发生前，通过注意冗余ack检测丢包的情况。</p>
+<p><strong>产生ack的建议</strong></p>
+<ol>
+<li><p><strong>如果：具有所期望的序号的按序报文到达，所有在期望序号及之前的数据已经确认。：</strong> 延迟发送ACK 。对另一个按序报文段的到达最多等待500ms，如果下一个按序报文段没有在这个时间间隔内到达，则发送一个ack。</p>
+</li>
+<li><p><strong>如果：具有期望的序号的报文按序到达，另一个按序报文段等待ack传输</strong>: 立即发送一个累积ack，确认两个按序报文段。</p>
+</li>
+<li><p><strong>如果：比期望序号大的失序报文段到达，检测出间隔</strong> 立即发送冗余ack，指示下一个期待字节的序号</p>
+</li>
+<li><p><strong>如果：能部分或完全填充数据间隔的报文段到达</strong> 倘若该报文段起始于间隔的低端，立刻发送ack。</p>
+</li>
+</ol>
+<p>发送方如果检测到3个冗余ack（同一个报文段的4次ack），就执行快速重传。</p>
+<h2 id="TCP-连接管理"><a href="#TCP-连接管理" class="headerlink" title="TCP 连接管理"></a>TCP 连接管理</h2><p><img src="http://img.blog.csdn.net/20170103203036017?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="TCP-三次握手-建立连接"><a href="#TCP-三次握手-建立连接" class="headerlink" title="TCP 三次握手 建立连接"></a>TCP 三次握手 建立连接</h3><ol>
+<li><p>第一步：客户端发起建立连接，置 SYN 为 1，随机选择一个初始序号 client_isn 置于序号字段。</p>
+</li>
+<li><p>第二步: 服务端收到建立连接的请求，同意连接，分配缓存和变量等（可能使得tcp易于受到syn洪泛攻击）。发送报文：置 SYN 为 1,确认号 为 client_isn + 1 ，将序号置为一个初始序号 server_isn .这个报文有时候称为 SYNACK 报文</p>
+</li>
+<li><p>第三步:客户端收到 SYNACK 报文后，客户端为该连接分配缓存和变量，向服务器确认，发送报文：确认号为 server_isn+1 (这里 SYN 为 0) ，这个报文可以捎带客户端发送给服务器的数据。</p>
+</li>
+</ol>
+<h4 id="为什么需要三次握手"><a href="#为什么需要三次握手" class="headerlink" title="为什么需要三次握手"></a>为什么需要三次握手</h4><p>因为 tcp 要实现一个全双工的可靠的数据传输协议，保证接收端交付给上层的是无损坏，无间隔，非冗余和按序的数据流。那么就需要用到序号和确认号：</p>
+<p>在第一次握手中，客户端向服务器表达了要建立连接的请求，并随机初始化了一个序号，有了客户端的初始序号，才能保证服务器发送给客户端的数据是按序的。</p>
+<p>当服务器了解到客户端的请求后，同意建立连接，并分配了一些缓存和变量后，服务器得要让客户端知道自己同意了建立连接，就需要 ACK client_isn+1, 同时为了以后客户端能够正确的发送数据到服务器，就需要发送自己的一个初始化的序号 server_isn, 服务器的初始序号和对客户端建立连接建立的请求的ACK 可以合并为第二次握手。</p>
+<p>当服务器发送了第二次握手后，这时服务器是知道客户端的初始序号的，但是它并不知道客户端是否知道了自己的初始化序号，因此需要等待客户端的ACK ，客户端得到第二次握手的报文后，得知了服务器的初始序号 server_isn ,需要向服务器确认自己已经知道了服务器的初始化序号，就需要 ACK server_isn+1 ， 当服务器知道客户端确认了自己的初始序号，此时连接的双方都能够通过正确的对方的序号发送报文，确保数据流的可靠。这就是第三次握手，第三次握手的同时可以捎带客户端发送给服务器的数据。</p>
+<p>当第二次握手，服务器发送 SYNACK 报文后， 收到客户端对该报文的ACK 前，如果超时后仍然没有收到 ACK ，就会重发 SYNACK 报文，等待 客户端的 确认，多次尝试后回关闭这个连接。</p>
+<p><strong>关于建连接时SYN超时</strong></p>
+<p>试想一下，如果server端接到了clien发的SYN后回了SYN-ACK后client掉线了，server端没有收到client回来的ACK，那么，这个连接处于一个中间状态，即没成功，也没失败。于是，server端如果在一定时间内没有收到的TCP会重发SYN-ACK。在Linux下，默认重试次数为5次，重试的间隔时间从1s开始每次都翻售，5次的重试时间间隔为1s, 2s, 4s, 8s, 16s，总共31s，第5次发出后还要等32s都知道第5次也超时了，所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 2^6 -1 = 63s，TCP才会把断开这个连接。</p>
+<p><strong>关于SYN Flood攻击。</strong></p>
+<p>一些恶意的人就为此制造了SYN Flood攻击——给服务器发了一个SYN后，就下线了，于是服务器需要默认等63s才会断开连接，这样，攻击者就可以把服务器的syn连接的队列耗尽，让正常的连接请求不能处理。于是，Linux下给了一个叫tcp_syncookies的参数来应对这个事——当SYN队列满了后，TCP会通过源地址端口、目标地址端口和时间戳打造出一个特别的Sequence Number发回去（又叫cookie），如果是攻击者则不会有响应，如果是正常连接，则会把这个 SYN Cookie发回来，然后服务端可以通过cookie建连接（即使你不在SYN队列中）。请注意，请先千万别用tcp_syncookies来处理正常的大负载的连接的情况。因为，synccookies是妥协版的TCP协议，并不严谨。对于正常的请求，你应该调整三个TCP参数可供你选择，第一个是：tcp_synack_retries 可以用他来减少重试次数；第二个是：tcp_max_syn_backlog，可以增大SYN连接数；第三个是：tcp_abort_on_overflow 处理不过来干脆就直接拒绝连接了。</p>
+<p><strong>关于ISN的初始化。</strong></p>
+<p>ISN是不能hard code的，不然会出问题的——比如：如果连接建好后始终用1来做ISN，如果client发了30个segment过去，但是网络断了，于是 client重连，又用了1做ISN，但是之前连接的那些包到了，于是就被当成了新连接的包，此时，client的Sequence Number 可能是3，而Server端认为client端的这个号是30了。全乱了。RFC793中说，ISN会和一个假的时钟绑在一起，这个时钟会在每4微秒对ISN做加一操作，直到超过2^32，又从0开始。这样，一个ISN的周期大约是4.55个小时。因为，我们假设我们的TCP Segment在网络上的存活时间不会超过Maximum Segment Lifetime（缩写为MSL – Wikipedia语条），所以，只要MSL的值小于4.55小时，那么，我们就不会重用到ISN。</p>
+<h3 id="TCP-四次挥手-断开连接"><a href="#TCP-四次挥手-断开连接" class="headerlink" title="TCP 四次挥手 断开连接"></a>TCP 四次挥手 断开连接</h3><ol>
+<li><p>第一步：客户端发起一个特殊报文 FIN 置为1， 请求断开连接。客户端进入 FIN_WAIT_1 状态，表示客户端没有数据发送给服务器了。</p>
+</li>
+<li><p>第二步：服务器确认 客户端的 FIN 。客户端受到服务器的 ACK 后，进入 FIN_WAIT_2 状态。服务器进入 CLOSE_WAIT 状态。这一步表示服务器同意了客户端关闭连接。</p>
+</li>
+<li><p>第三步：服务器向客户端发送一个  FIN。服务器进入 LAST_ACK 状态。</p>
+</li>
+<li><p>第四步：客户端向服务器确认FIN  发送 ACK 报文，进入 TIME_WAIT 状态，如果服务器正确收到了这个 ACK ，服务器就可以关闭连接了，如果客户端经过 2 msl 后没有受到服务器的回复，说明服务器正确关闭，客户端也可以关闭了。</p>
+</li>
+</ol>
+<h4 id="为什么需要四次挥手"><a href="#为什么需要四次挥手" class="headerlink" title="为什么需要四次挥手"></a>为什么需要四次挥手</h4><p>MSL是Maximum Segment Lifetime,译为“报文最大生存时间”，他是任何报文在网络上存在的最长时间，超过这个时间报文将被丢弃。</p>
+<p>因为tcp是全双工的，连接双方都需要请求关闭连接，并需要得到对方的确认。</p>
+<p>第一步和第二步：客户端请求断开连接，服务器同意断开连接</p>
+<p>第三步和第四步：服务器请求断开连接，客户端同意断开连接。服务器知道客户端同意断开连接后，服务器可以释放资源，因为不需要接收客户端数据了。客户端发送 ACK 后并不能立刻释放资源，因为可能这个 ACK 会丢掉，那么还需要接收服务器的重发的 FIN ，这个 ACK 发出去，和重发的 FIN ， 这一来一去就需要两个 MSL  ，在这个时间内没有收到 服务器的回应，说明服务器正常关闭并释放资源了，那么此时客户端也可以释放资源了。</p>
+<h2 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h2><p>使得发送方的发送速率与接收方应用程序读取速率相匹配。消除因接收段读取数据时相对缓慢，而发送方发送数据太快太多导致的连接的接收缓冲溢出。</p>
+<p>TCP头里有一个字段叫<strong>Window</strong>，又叫<strong>Advertised-Window</strong>，这个字段是接收端告诉发送端自己还有多少缓冲区可以接收数据。于是发送端就可以根据这个接收端的处理能力来发送数据，而不会导致接收端处理不过来</p>
+<p>发送端：</p>
+<p><strong>LastByteWritten</strong>:上层应用正在写的位置。</p>
+<p><strong>LastByteAcked</strong>:被接收端ACK过的位置，表示成功发送确认了。</p>
+<p><strong>LastByteSent</strong>:发出去了，但是没有被确认的位置。</p>
+<p>接收端：</p>
+<p><strong>LastByteRead</strong>:上层应用正在读的位置。</p>
+<p><strong>NextByteExpected</strong>:收到的 <strong>连续包</strong> 的最后一个位置。</p>
+<p><strong>LastByreRcvd</strong>:收到的包的最后一个位置</p>
+<p>由于TCP 不允许已经分配的缓存溢出，下式必须成立</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">LastByteRcvd-LastByteRead&lt;=RecvBuffer</span><br></pre></td></tr></table></figure>
+<p>接收窗口用rwnd表示，根据缓存可用空间的数量来设置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rwnd=RecvBuffer-[LastByteRcvd-LastByteRead]</span><br></pre></td></tr></table></figure>
+<p>接收端把rwnd放在回应发送端的报文的窗口字段中。</p>
+<p>发送端接收到rwnd，会始终保持</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LastByteSent-LastByteAcked&lt;=rwnd</span><br></pre></td></tr></table></figure>
+<p>限制未确认的报文的数量在接收端的接收窗口范围内</p>
+<p><strong>特殊情况</strong></p>
+<p>如果 接收端的主机B的接收缓存已经满了，使得rwnd=0，将rwnd告知给发送端主机A之后，恰好主机B已经没有任何数据要发送给主机A了。</p>
+<p>这时：主机A因为接收端的rwnd=0，导致不会继续发送报文，而当主机B的应用程序将缓存清空后，主机A也无法得知B已经有了行的缓存空间，导致主机A阻塞不能继续发送数据。</p>
+<p>为了防止这种情况，TCP规范要求，当主机B的接收窗口为0时，主机A继续发送只有一个字节数据的报文段。这些报文段将被接收方确认，最终缓存将开始情况，并且确认报文段里将包含一个非0的rwnd值。</p>
+<h2 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h2><p>如果网络上的延时突然增加，那么，TCP对这个事做出的应对只有重传数据，但是，重传会导致网络的负担更重，于是会导致更大的延迟以及更多的丢包，于是，这个情况就会进入恶性循环被不断地放大。试想一下，如果一个网络内有成千上万的TCP连接都这么行事，那么马上就会形成“网络风暴”，TCP这个协议就会拖垮整个网络</p>
+<p>所以，TCP不能忽略网络上发生的事情，而无脑地一个劲地重发数据，对网络造成更大的伤害。对此TCP的设计理念是：<strong>TCP不是一个自私的协议，当拥塞发生的时候，要做自我牺牲。就像交通阻塞一样，每个车都应该把路让出来，而不要再去抢路了</strong>。</p>
+<p>###如何限制发送速率？</p>
+<p><strong>拥塞窗口cwnd</strong></p>
+<p>发送方通过跟踪一个额外的变量，即拥塞窗口（cwnd）对一个tcp发送方能向网路中发送流量的速率进行了限制。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LastByteSent-LastByteAcked&lt;=min(cwnd,rwnd)</span><br></pre></td></tr></table></figure>
+<p>限制发送方中未被确认的数据量，间接的限制发送方的发送速率。在每个往返时间（RTT）的起始点，上面的限制条件允许发送放向该连接发送cwnd个字节的数据，在该RTT结束时发送方接收对数据的确认报文。因此发送方的发送速率大概是cwnd/RTT 字节/秒。因此，通过调节cwnd的值，发送方能条件向连接发送数据的速率。</p>
+<p>###如何感知需要调节发送速率？</p>
+<p><strong>发送方TCP丢包事件：</strong></p>
+<ul>
+<li>超时</li>
+<li>收到接收方的3各冗余ACK</li>
+</ul>
+<p>当发生丢包事件后，就可以认为网路发生了拥塞。</p>
+<p><strong>确认报文</strong></p>
+<p>一个确认报文指示该网路正在向接收方交付发送方的报文段，因此对先前未确认的报文确认到达时，能增加发送方的速率。</p>
+<p>###采用何种方法调节发送速率？</p>
+<p>拥塞控制主要有这几个算法：</p>
+<ul>
+<li>慢启动</li>
+<li>拥塞避免</li>
+<li>快速恢复</li>
+</ul>
+<h4 id="慢启动"><a href="#慢启动" class="headerlink" title="慢启动"></a>慢启动</h4><ol>
+<li>cwnd值以一个MSS开始</li>
+</ol>
+<p><strong>收到确认ACK</strong></p>
+<ol>
+<li>每当传输的报文首次确认，增加一个MSS</li>
+<li>dupACKcount 设置为 0</li>
+</ol>
+<p>发送完第一个报文等待确认，当确认到达，发送方将拥塞窗口增加一个MSS，然后再发送两个最大长度的报文，当着两个报文的确认到达时，为每个确认增加一个MSS，于是此时cwnd增加到四个MSS。这样下去，导致：<strong>每经过一个RTT，发送速率翻一倍</strong></p>
+<p>所以说，慢<strong>启动只是起始慢，但是确以指数速度增长</strong>。</p>
+<p><strong>慢启动阈值 ssthresh</strong>:</p>
+<p>当慢启动状态时，cwnd增长到或者超过 ssthresh 时，结束慢启动，<strong>进入拥塞避免模式</strong>。</p>
+<p><strong>超时指示的丢包（拥塞）</strong>：</p>
+<ol>
+<li>慢启动阈值 ssthresh 设置为 cwnd/2</li>
+<li>发送方将cwnd设置为1 MSS</li>
+<li>dupACKcount 设置为0</li>
+<li>重传数据</li>
+<li><strong>重新启动慢启动过程</strong></li>
+</ol>
+<p><strong>冗余ACK</strong></p>
+<ol>
+<li>dupACKcount++</li>
+</ol>
+<p><strong>3个冗余ACK</strong>：</p>
+<ol>
+<li>ssthresh=cwnd/2</li>
+<li>cwnd=ssthresh+3 MMS</li>
+<li>重传数据</li>
+<li>进入快速恢复状态</li>
+</ol>
+<p>####拥塞避免</p>
+<p><strong>收到确认ACK</strong></p>
+<p>一旦进入拥塞避免状态，cwnd的值大约是上次遇到拥塞时cwnd值的一半（因为在慢启动中，遇到拥塞时，会将ssthresh设置为cwnd/2,而因为之后cwnd达到ssthresh（上个cwnd/2）时，进入拥塞避免）距离拥塞可能并不遥远，所以不能让每经过一个RTT就让cwnd翻倍了。所以：</p>
+<ol>
+<li>收到一个ACK时，cwnd增加 MSS/cwnd 字节</li>
+<li>dupACKcount 设为0</li>
+</ol>
+<p>因为每个RTT 可以发送 cwnd/MSS 个报文，所以如果在一个RTT 正常受到这些发出去的报文的ACK ，那么增加 (cwnd/MSS)<em>(MSS/cwnd) 个字节。也就是，<em>*每经过一个RTT，cwnd增加一个MSS</em></em></p>
+<p>例如：如果MSS 为1460字节且cwnd为14600字节，那么在一个RTT内发送10个报文，当每个ACK到达，增加1/10 MSS 的cwnd，因此收到所有10个报文段的确认后，拥塞窗口值增加了1个MSS</p>
+<p><strong>超时</strong></p>
+<ol>
+<li>ssthresh 设置为cwnd/2</li>
+<li>cwnd设置为一个MSS</li>
+<li>dupACKcount 设为 0</li>
+<li><strong>进入慢启动</strong></li>
+</ol>
+<p><strong>3个冗余ACK</strong></p>
+<ol>
+<li>ssthresh 设置为cwnd/2</li>
+<li>cwnd=ssthresh+3 MSS</li>
+<li>重传数据</li>
+<li><strong>进入快速恢复</strong></li>
+</ol>
+<h4 id="快速恢复"><a href="#快速恢复" class="headerlink" title="快速恢复"></a>快速恢复</h4><p>快速恢复是tcp推荐但是并不是必须的构件。</p>
+<p>回顾下发生快速恢复前发生了什么（收到了3个冗余ACK，可以认为数据丢失）（可能是从慢启动或者是拥塞避免状态转换而来）</p>
+<ol>
+<li>ssthresh 设置为cwnd/2</li>
+<li>cwnd=ssthresh+3 MSS</li>
+<li>重传丢失的数据</li>
+</ol>
+<p>在快速恢复状态：</p>
+<p><strong>继续收到冗余ACK</strong></p>
+<ol>
+<li>cwnd 增加一个 MSS</li>
+</ol>
+<p><strong>收到新的ACK</strong></p>
+<ol>
+<li>cwnd=ssthresh</li>
+<li>dupACKcount 设为 0</li>
+<li>进入拥塞避免</li>
+</ol>
+<p>如果你仔细思考一下上面的这个算法，你就会知道，上面这个算法也有问题，那就是——它依赖于3个重复的Acks。注意，3个重复的Acks并不代表只丢了一个数据包，很有可能是丢了好多包。但这个算法只会重传一个，而剩下的那些包只能等到RTO超时，于是，进入了恶梦模式——超时一个窗口就减半一下，多个超时会超成TCP的传输速度呈级数下降，而且也不会触发Fast Recovery算法了。</p>
+<p><strong>丢包</strong></p>
+<ol>
+<li>ssthresh=cwnd/2</li>
+<li>cwnd=1</li>
+<li>dupACKcount 设为 0</li>
+<li>进入慢启动</li>
+</ol>
+<h4 id="tcp拥塞控制回顾"><a href="#tcp拥塞控制回顾" class="headerlink" title="tcp拥塞控制回顾"></a>tcp拥塞控制回顾</h4>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/19/可靠的数据传输/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          可靠的数据传输
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/29/传输层与UDP协议/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="TCP协议" data-title="" data-url="http://yoursite.com/2017/01/03/TCP协议/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 WarpTens
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme extend <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    },
+    displayAlign: "left",
+    displayIndent: "2em"
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

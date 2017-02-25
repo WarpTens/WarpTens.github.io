@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>lisp | WarpTens</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="(cons 1 2); &apos;(1 . 2)`(+ 1 2); &apos;(+ 1 2)(car `(1 2)); 1(cdr `(1 2)); &apos;(2)(car `(1 2 3 . 4)); 1(cdr `(1 2 4 . 4)); &apos;(2 4 . 4)(list &apos;(1 2) &apos;(3 4)); &apos;((1 2) (3 4))(list 1 2 3); &apos;(1 2 3)(define mappend 	(la">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lisp">
+<meta property="og:url" content="http://yoursite.com/2016/12/21/lisp/index.html">
+<meta property="og:site_name" content="WarpTens">
+<meta property="og:description" content="(cons 1 2); &apos;(1 . 2)`(+ 1 2); &apos;(+ 1 2)(car `(1 2)); 1(cdr `(1 2)); &apos;(2)(car `(1 2 3 . 4)); 1(cdr `(1 2 4 . 4)); &apos;(2 4 . 4)(list &apos;(1 2) &apos;(3 4)); &apos;((1 2) (3 4))(list 1 2 3); &apos;(1 2 3)(define mappend 	(la">
+<meta property="og:updated_time" content="2016-12-21T14:43:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lisp">
+<meta name="twitter:description" content="(cons 1 2); &apos;(1 . 2)`(+ 1 2); &apos;(+ 1 2)(car `(1 2)); 1(cdr `(1 2)); &apos;(2)(car `(1 2 3 . 4)); 1(cdr `(1 2 4 . 4)); &apos;(2 4 . 4)(list &apos;(1 2) &apos;(3 4)); &apos;((1 2) (3 4))(list 1 2 3); &apos;(1 2 3)(define mappend 	(la">
+   
+  
+    <link rel="alternative" href="/atom.xml" title="WarpTens" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://avatar.csdn.net/0/6/8/1_warptens.jpg?1481643481559" class="js-avatar">
+			
+			
+		</a>
+
+		<hgroup>
+		  <a id="follow" 
+        href='
+          
+    javascript:(
+    /*
+     * Copyright (C) 2015 Rocko (http://rocko.xyz) <rocko.zxp@gmail.com>
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    function go() {
+    
+    function c() {
+        var e = document.createElement("link");
+        e.setAttribute("type", "text/css");
+        e.setAttribute("rel", "stylesheet");
+        e.setAttribute("href", f);
+        e.setAttribute("class", l);
+        document.body.appendChild(e)
+    }
+ 
+    function h() {
+        var e = document.getElementsByClassName(l);
+        for (var t = 0; t < e.length; t++) {
+            document.body.removeChild(e[t])
+        }
+    }
+ 
+    function p() {
+        var e = document.createElement("div");
+        e.setAttribute("class", a);
+        document.body.appendChild(e);
+        setTimeout(function() {
+            document.body.removeChild(e)
+        }, 100)
+    }
+ 
+    function d(e) {
+        return {
+            height : e.offsetHeight,
+            width : e.offsetWidth
+        }
+    }
+ 
+    function v(i) {
+        var s = d(i);
+        return s.height > e && s.height < n && s.width > t && s.width < r
+    }
+ 
+    function m(e) {
+        var t = e;
+        var n = 0;
+        while (!!t) {
+            n += t.offsetTop;
+            t = t.offsetParent
+        }
+        return n
+    }
+ 
+    function g() {
+        var e = document.documentElement;
+        if (!!window.innerWidth) {
+            return window.innerHeight
+        } else if (e && !isNaN(e.clientHeight)) {
+            return e.clientHeight
+        }
+        return 0
+    }
+ 
+    function y() {
+        if (window.pageYOffset) {
+            return window.pageYOffset
+        }
+        return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+    }
+ 
+    function E(e) {
+        var t = m(e);
+        return t >= w && t <= b + w
+    }
+ 
+    var songs = [
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-Fashion_Show.mp3",
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-Wake-Live.mp3",
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-outside.mp3",
+                "http://7xoiki.com1.z0.glb.clouddn.com/Music-sunburst.mp3"
+    ];
+
+    function S() {
+        var e = document.getElementById("audio_element_id");
+        if(e != null){
+            var index = parseInt(e.getAttribute("curSongIndex"));
+            if(index > songs.length - 2) {
+                index = 0;
+            } else {
+                index++;
+            }
+            e.setAttribute("curSongIndex", index);
+            N();
+        }
+
+        e.src = i;
+        e.play()
+    }
+ 
+    function x(e) {
+        e.className += " " + s + " " + o
+    }
+ 
+    function T(e) {
+        e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+    }
+ 
+    function N() {
+        var e = document.getElementsByClassName(s);
+        var t = new RegExp("\\b" + s + "\\b");
+        for (var n = 0; n < e.length; ) {
+            e[n].className = e[n].className.replace(t, "")
+        }
+    }
+
+    function initAudioEle() {
+        var e = document.getElementById("audio_element_id");
+        if(e === null){
+            e = document.createElement("audio");
+            e.setAttribute("class", l);
+            e.setAttribute("curSongIndex", 0);
+            e.id = "audio_element_id";
+            e.loop = false;
+            e.bgcolor = 0;
+            e.addEventListener("canplay", function() {
+            setTimeout(function() {
+                x(k)
+            }, 500);
+            setTimeout(function() {
+                N();
+                p();
+                for (var e = 0; e < O.length; e++) {
+                    T(O[e])
+                }
+            }, 15500)
+        }, true);
+        e.addEventListener("ended", function() {
+            N();
+            h();
+            go();
+        }, true);
+        e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+        document.body.appendChild(e);
+        }
+    }
+    
+    initAudioEle();
+    var e = 30;
+    var t = 30;
+    var n = 350;
+    var r = 350;
+
+    var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+    var i = songs[curSongIndex];
+    
+    var s = "mw-harlem_shake_me";
+    var o = "im_first";
+    var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+    var a = "mw-strobe_light";
+
+    var f = "http://thereisnospon.com/css.css";
+    
+    var l = "mw_added_css";
+    var b = g();
+    var w = y();
+    var C = document.getElementsByTagName("*");
+    var k = null;
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            if (E(A)) {
+                k = A;
+                break
+            }
+        }
+    }
+    if (A === null) {
+        console.warn("Could not find a node of the right size. Please try a different page.");
+        return
+    }
+    c();
+    S();
+    var O = [];
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            O.push(A)
+        }
+    }
+    })()
+    
+        '>
+      <i class="fa fa-music"></i> &nbsp High一下 </i></a>
+		  <h1 class="header-author"><a href="/">WarpTens</a></h1>
+
+		 
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/gate">传送门</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/Thereisnospon" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/2195562155?is_all=1" title="weibo">weibo</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/acm/" style="font-size: 15px;">acm</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/cpp/" style="font-size: 20px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/总结/" style="font-size: 10px;">总结</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io/">hexo官网</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://mindhacks.cn/">刘未鹏</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://coolshell.cn/">酷壳</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.kdwycz.com/">kdwycz</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.aemiot.com/">泛叶江湖</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://lattez.host.smartgslb.com/">Lattez</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/mummyding/">MummyDing</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.thereisnospon.com/">Thereisnospon</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://rocko.xyz/">rocko</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">WarpTens</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://avatar.csdn.net/0/6/8/1_warptens.jpg?1481643481559" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">WarpTens</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/gate">传送门</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Thereisnospon" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/2195562155?is_all=1" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-lisp" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/21/lisp/" class="article-date">
+  	<time datetime="2016-12-21T14:43:06.000Z" itemprop="datePublished">2016-12-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      lisp
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight lisp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">cons</span> <span class="number">1</span> <span class="number">2</span>)</span><br><span class="line"><span class="comment">; '(1 . 2)</span></span><br><span class="line">`(+ <span class="number">1</span> <span class="number">2</span>)</span><br><span class="line"><span class="comment">; '(+ 1 2)</span></span><br><span class="line">(<span class="name">car</span> `(<span class="number">1</span> <span class="number">2</span>))</span><br><span class="line"><span class="comment">; 1</span></span><br><span class="line">(<span class="name">cdr</span> `(<span class="number">1</span> <span class="number">2</span>))</span><br><span class="line"><span class="comment">; '(2)</span></span><br><span class="line">(<span class="name">car</span> `(<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> . <span class="number">4</span>))</span><br><span class="line"><span class="comment">; 1</span></span><br><span class="line">(<span class="name">cdr</span> `(<span class="number">1</span> <span class="number">2</span> <span class="number">4</span> . <span class="number">4</span>))</span><br><span class="line"><span class="comment">; '(2 4 . 4)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">list</span> '(<span class="number">1</span> <span class="number">2</span>) '(<span class="number">3</span> <span class="number">4</span>))</span><br><span class="line"><span class="comment">; '((1 2) (3 4))</span></span><br><span class="line"></span><br><span class="line">(<span class="name">list</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span>)</span><br><span class="line"><span class="comment">; '(1 2 3)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> mappend </span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">name</span>)</span><br><span class="line">		(<span class="name">string-append</span> <span class="string">"name:"</span> name)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> plus</span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">a</span> b)</span><br><span class="line">		(<span class="name">+</span> a b)))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">mappend2</span> name)</span><br><span class="line">	(<span class="name">string-append</span> <span class="string">"name:"</span>name)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">plus2</span> a b)</span><br><span class="line">	(<span class="name">+</span> a b))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> inc</span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">num</span>)</span><br><span class="line">		(<span class="name">+</span> num <span class="number">1</span>)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">dec</span> num)</span><br><span class="line">	(<span class="name">-</span> num <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> abs</span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">num</span>)</span><br><span class="line">		(<span class="name">if</span> (<span class="name">&gt;</span> num <span class="number">0</span>) </span><br><span class="line">			num </span><br><span class="line">			(<span class="name">*</span> num <span class="number">-1</span>)</span><br><span class="line">			)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> abs2)</span><br><span class="line"></span><br><span class="line"><span class="comment">; and具有任意个数的参数，并从左到右对它们求值。如果某一参数为#f，那么它就返回#f，</span></span><br><span class="line"><span class="comment">; 而不对剩余参数求值。反过来说，如果所有的参数都不是#f，那么就返回最后一个参数的值。</span></span><br><span class="line">(<span class="name">define</span> mul-g0</span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">n1</span> n2 n3)</span><br><span class="line">		(</span><br><span class="line">			<span class="name">and</span> </span><br><span class="line">				(<span class="name">&gt;</span> n1 <span class="number">0</span>) </span><br><span class="line">				(<span class="name">&gt;</span> n2 <span class="number">0</span>) </span><br><span class="line">				(<span class="name">&gt;</span> n3 <span class="number">0</span>)</span><br><span class="line">				(<span class="name">*</span> n1 n2 n3)</span><br><span class="line">				)</span><br><span class="line">			</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line"><span class="comment">; or具有可变个数的参数，并从左到右对它们求值。它返回第一个不是值#f的参数，</span></span><br><span class="line"><span class="comment">; 而余下的参数不会被求值。如果所有的参数的值都是#f的话，则返回最后一个参数的值。</span></span><br><span class="line">(<span class="name">define</span> mul-ng0</span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">n1</span> n2 n3)</span><br><span class="line">		(</span><br><span class="line">			<span class="name">if</span> (<span class="name">or</span> (<span class="name">&lt;</span> n1 <span class="number">0</span>)(<span class="name">&lt;</span> n2 <span class="number">0</span>)(<span class="name">&lt;</span> n3 <span class="number">0</span>))</span><br><span class="line">			(<span class="name">*</span> n1 n2 n3)</span><br><span class="line">			#f</span><br><span class="line">			)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line"><span class="comment">; 在cond表达式中，predicates_i是按照从上到下的顺序求值，</span></span><br><span class="line"><span class="comment">; 而当predicates_i为真时，clause_i会被求值并返回。</span></span><br><span class="line"><span class="comment">; i之后的predicates和clauses不会被求值。如果所有的predicates_i都是假的话，则返回cluase_else。</span></span><br><span class="line"><span class="comment">; 在一个子句中，你可以写数条S-表达式，而clause的值是最后一条S-表达式。</span></span><br><span class="line">(<span class="name">define</span> cal-mon</span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">km</span>)</span><br><span class="line">		(<span class="name">cond</span> </span><br><span class="line">			((<span class="name">&gt;</span> km <span class="number">90</span>) <span class="string">"优秀"</span>)</span><br><span class="line">			((<span class="name">&gt;</span> km <span class="number">80</span>) <span class="string">"良好"</span>)</span><br><span class="line">			((<span class="name">&gt;=</span> km <span class="number">60</span>) <span class="string">"及格"</span>)</span><br><span class="line">			((<span class="name">&lt;</span> km <span class="number">60</span>) <span class="string">"不及格"</span>)</span><br><span class="line">			(<span class="name">else</span> <span class="string">"非法输入"</span>)</span><br><span class="line">			)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line"><span class="comment">; eq? 该函数比较两个对象的地址，如果相同的话就返回#t。</span></span><br><span class="line"><span class="comment">; 例如，(eq? str str)返回#t，因为str本身的地址是一致的。</span></span><br><span class="line"><span class="comment">; 与此相对的，因为字符串”hello”和”hello”被储存在了不同的地址中，函数将返回#f。</span></span><br><span class="line"><span class="comment">; 不要使用eq?来比较数字，因为不仅在R5RS中，甚至在MIT-Scheme实现中，它都没有指定返回值。使用eqv?或者=替代。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; eqv? 该函数比较两个存储在内存中的对象的类型和值。</span></span><br><span class="line"><span class="comment">; 如果类型和值都一致的话就返回#t。对于过程（lambda表达式）的比较依赖于具体的实现。</span></span><br><span class="line"><span class="comment">; 这个函数不能用于类似于表和字符串一类的序列比较，因为尽管这些序列看起来是一致的，但它们的值是存储在不同的地址中。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; pair? 如果对象为序对则返回#t；</span></span><br><span class="line"><span class="comment">; list? 如果对象是一个表则返回#t。要小心的是空表’()是一个表但是不是一个序对。</span></span><br><span class="line"><span class="comment">; null? 如果对象是空表’()的话就返回#t。</span></span><br><span class="line"><span class="comment">; symbol? 如果对象是一个符号则返回#t。</span></span><br><span class="line"><span class="comment">; char? 如果对象是一个字符则返回#t。</span></span><br><span class="line"><span class="comment">; string? 如果对象是一个字符串则返回#t。</span></span><br><span class="line"><span class="comment">; number? 如果对象是一个数字则返回#t。</span></span><br><span class="line"><span class="comment">; complex? 如果对象是一个复数则返回#t。</span></span><br><span class="line"><span class="comment">; real? 如果对象是一个实数则返回#t。</span></span><br><span class="line"><span class="comment">; rational? 如果对象是一个有理数则返回#t。</span></span><br><span class="line"><span class="comment">; integer? 如果对象是一个整数则返回#t。</span></span><br><span class="line"><span class="comment">; exact? 如果对象不是一个浮点数的话则返回#t。</span></span><br><span class="line"><span class="comment">; inexact? 如果对象是一个浮点数的话则返回#t。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; 在比较字符的时候可以使用char=?、char&lt;?、char&gt;?、char&lt;=?以及char&gt;=?函数。具体的细节请参见R5RS。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 比较字符串时，可以使用string=?和string-ci=?等函数。具体细节请参见R5RS。</span></span><br><span class="line"></span><br><span class="line">(<span class="name">let</span> ((<span class="name">PI</span> <span class="number">3.1415926</span> )(<span class="name">R</span> <span class="number">2</span>))</span><br><span class="line">	(<span class="name">*</span> PI R))</span><br><span class="line"></span><br><span class="line"><span class="comment">; let*只是嵌套的let表达式的语法糖而已。</span></span><br><span class="line">(<span class="name">let*</span> ((<span class="name">i</span> <span class="number">1</span>) (<span class="name">j</span> (<span class="name">+</span> i <span class="number">1</span>)))</span><br><span class="line">	(<span class="name">*</span> i j))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> fact</span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">n</span>)</span><br><span class="line">		(<span class="name">if</span> (<span class="name">&lt;=</span> n <span class="number">1</span>) </span><br><span class="line">			<span class="number">1</span> </span><br><span class="line">			(<span class="name">*</span> n (<span class="name">fact</span> (<span class="name">-</span> n <span class="number">1</span>)))</span><br><span class="line">			)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> sum </span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">lst</span>) </span><br><span class="line">		(<span class="name">if</span>(<span class="name">null</span>? lst) </span><br><span class="line">			<span class="number">0</span> </span><br><span class="line">			(<span class="name">+</span> (<span class="name">car</span> lst) (<span class="name">sum</span> (<span class="name">cdr</span> lst)))</span><br><span class="line">			)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> my-len</span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">lst</span>)</span><br><span class="line">		(<span class="name">if</span> (<span class="name">null</span>? lst)</span><br><span class="line">		<span class="number">0</span></span><br><span class="line">		(<span class="name">+</span> <span class="number">1</span> (<span class="name">my-len</span> (<span class="name">cdr</span> lst)))</span><br><span class="line">		 )</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">remove</span> x ls)</span><br><span class="line">  (<span class="name">if</span> (<span class="name">null</span>? ls)</span><br><span class="line">      '()</span><br><span class="line">      (<span class="name">let</span> ((<span class="name">h</span> (<span class="name">car</span> ls)))</span><br><span class="line">        (</span><br><span class="line">        	(<span class="name">if</span> (<span class="name">eqv</span>? x h)</span><br><span class="line">        		(<span class="name">lambda</span> (<span class="name">y</span>) y)</span><br><span class="line">        		(<span class="name">lambda</span> (<span class="name">y</span>) (<span class="name">cons</span> h y))</span><br><span class="line">        		)</span><br><span class="line">         (<span class="name">remove</span> x (<span class="name">cdr</span> ls))</span><br><span class="line">         )</span><br><span class="line">        )</span><br><span class="line">      )</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> mabs (</span><br><span class="line">	<span class="name">lambda</span> (<span class="name">num</span>) (</span><br><span class="line">		(<span class="name">if</span> (<span class="name">&gt;</span> num <span class="number">0</span>) </span><br><span class="line">			(<span class="name">lambda</span> (<span class="name">y</span>) y)</span><br><span class="line">			(<span class="name">lambda</span> (<span class="name">y</span>) (<span class="name">*</span> <span class="number">-1</span> y))</span><br><span class="line">			)</span><br><span class="line">		num</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> at-pos</span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">llst</span> lx) (  <span class="name">pos-at</span> llst lx <span class="number">0</span>     )) )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> pos-at</span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">lst</span> x st) ( </span><br><span class="line">		<span class="name">cond</span> ((<span class="name">null</span>? lst) #f   )</span><br><span class="line">			((<span class="name">eqv</span>? x (<span class="name">car</span> lst) ) st)</span><br><span class="line">			(<span class="name">else</span> (<span class="name">pos-at</span> (<span class="name">cdr</span> lst) x (<span class="name">+</span> st <span class="number">1</span>)))</span><br><span class="line">		)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">factorial</span> n)</span><br><span class="line">  (<span class="name">define</span> (<span class="name">iter</span> product counter)</span><br><span class="line">    (<span class="name">if</span> (<span class="name">&gt;</span> counter n)</span><br><span class="line">        product</span><br><span class="line">        (<span class="name">iter</span> (<span class="name">*</span> counter product)</span><br><span class="line">              (<span class="name">+</span> counter <span class="number">1</span>))))</span><br><span class="line">  (<span class="name">iter</span> <span class="number">1</span> <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">at-pos</span> llst lx)</span><br><span class="line">	(<span class="name">define</span> (<span class="name">pos-at</span> lst x i) </span><br><span class="line">		( <span class="name">cond</span> </span><br><span class="line">			((<span class="name">null</span>? lst) #f)</span><br><span class="line">			((<span class="name">eqv</span>? x (<span class="name">car</span> lst)) i)</span><br><span class="line">			(<span class="name">else</span> (<span class="name">pos-at</span> (<span class="name">cdr</span> lst) x (<span class="name">+</span> i <span class="number">1</span>)))</span><br><span class="line">			) </span><br><span class="line">		) (<span class="name">pos-at</span> llst lx <span class="number">0</span>) )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">fact-tail</span> n)</span><br><span class="line">	(<span class="name">tail-fact</span> n n))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">tail-fact</span> n total)</span><br><span class="line">	(<span class="name">if</span>(<span class="name">=</span> n <span class="number">1</span> )</span><br><span class="line">		total</span><br><span class="line">		(<span class="name">let</span>  ((<span class="name">m</span> (<span class="name">-</span> n <span class="number">1</span>)))  (<span class="name">tail-fact</span> m  (<span class="name">*</span> m total))   )))</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/29/传输层与UDP协议/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/11/picasso/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Picasso 源码分析</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="lisp" data-title="lisp" data-url="http://yoursite.com/2016/12/21/lisp/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 WarpTens
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme extend <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    },
+    displayAlign: "left",
+    displayIndent: "2em"
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

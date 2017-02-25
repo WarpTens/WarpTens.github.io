@@ -315,7 +315,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/acm/" style="font-size: 15px;">acm</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/cpp/" style="font-size: 20px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/总结/" style="font-size: 10px;">总结</a>
+						<a href="/tags/acm/" style="font-size: 15px;">acm</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/cpp/" style="font-size: 20px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/总结/" style="font-size: 10px;">总结</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
 					</div>
 				</section>
 				
@@ -392,6 +392,528 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-可靠的数据传输" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/19/可靠的数据传输/" class="article-date">
+  	<time datetime="2017-02-19T07:39:43.000Z" itemprop="datePublished">2017-02-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/19/可靠的数据传输/">可靠的数据传输</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="可靠数据传输"><a href="#可靠数据传输" class="headerlink" title="可靠数据传输"></a>可靠数据传输</h2><h3 id="经完全可靠信道的可靠数据传输-rdt-1-0"><a href="#经完全可靠信道的可靠数据传输-rdt-1-0" class="headerlink" title="经完全可靠信道的可靠数据传输:rdt 1.0"></a>经完全可靠信道的可靠数据传输:rdt 1.0</h3><p>有了完全可靠的信道，接收端不需要提供任何反馈信息给发送方，且接收 方接受数据的速率和发送方一样快，因此也没有必要请求发送方发送慢一点。</p>
+<p><img src="http://img.blog.csdn.net/20170104143911721?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="经具有比特差错信道的可靠数据传输-rdt-2-0"><a href="#经具有比特差错信道的可靠数据传输-rdt-2-0" class="headerlink" title="经具有比特差错信道的可靠数据传输:rdt 2.0"></a>经具有比特差错信道的可靠数据传输:rdt 2.0</h3><p>假定所有发送的分组（虽然有些比特可能受损）将按其发送的顺序被接收</p>
+<p>当打电话和人交流时，当对方说出一句话时，接收者听到，理解记住后可能会说 “ 好的 “ 那么发送者说下一句话，如果接受者没有听清，就会说 ”你说什么，请再说一遍”。 这样发送者可以决定再复述一遍。这种协议使用了<strong>肯定确认</strong>和<strong>否定确认</strong>，使得接受方可以让发送方知道哪些内容被正确接受，哪些内容有误需要重复。</p>
+<p>基于这样的重传的可靠数据传输协议称为<strong>自动重传请求协议(ARQ)</strong></p>
+<p>ARQ 需要三种协议功能处理比特出错的情况：</p>
+<ol>
+<li><p><strong>差错检测</strong> ： 首先需要一种机制使接受方检测到何时出现了比特差错</p>
+</li>
+<li><p><strong>接受方反馈</strong>：发送方需要了解接受方情况的唯一途径就是让接受方提供明确的反馈信息给发送方</p>
+</li>
+<li><p><strong>重传</strong>：接收方收到有差错的分组时，发送方将重传该分组。</p>
+</li>
+</ol>
+<p>注意：</p>
+<p>rdt 2.0 在等待ack或者nak的状态时，不能从上层获得更多数据，因此发送方不会发送一块新数据，除非发送方确信接受方已正确接收到一个分组。因此 rdt 2.0这样的协议称为 <strong>停等协议</strong></p>
+<p><img src="http://img.blog.csdn.net/20170104143920086?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="rdt-2-0-的致命缺陷-及-rdt-2-1"><a href="#rdt-2-0-的致命缺陷-及-rdt-2-1" class="headerlink" title="rdt 2.0 的致命缺陷 及 rdt 2.1"></a>rdt 2.0 的致命缺陷 及 rdt 2.1</h4><p>没有考虑到 ack 或者 nak 分组的受损的可能性，如果接受到受损的ack或者nak 分组，发送方无法得知接受方是否正确接受上一块发送的数据。</p>
+<p>处理受损ack或nak的三种可能性:</p>
+<ol>
+<li><p>询问接受者发送了什么，但是这个询问可能又会出错，因此。。</p>
+</li>
+<li><p>增加足够多的校验和比特，使得发送方不仅可以检测差错还能恢复，对于只产生差错不丢失分组的信道，这样可以直接解决问题。</p>
+</li>
+<li><p>当发送方收到受损的ack或者nak时，重传当前分组。但是接受方并不知道它上次发送的ack或者nak是否被发送方正确接受，因此接收方不知道收到的分组是新的分组还是重传的分组。</p>
+</li>
+</ol>
+<p>解决第3个问题的方法是：在数据分组添加一个字段，让发送方对其数据分组编号，接收方只需检查序号可确定分组是否是一次重传。对于停等协议的这样的简单情况只需用一个比特就够了</p>
+<p><img src="http://img.blog.csdn.net/20170104143929133?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170104143941649?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="rdt-2-2"><a href="#rdt-2-2" class="headerlink" title="rdt 2.2"></a>rdt 2.2</h4><p>rdt 2.1 中如果接受者收到错误分组，只需要对上次正确接受的分组发送一个ack也可以实现nak的效果，发送方接受到同一个分组的两个ack，就知道接收方没有正确接受后面的分组了。</p>
+<p><img src="http://img.blog.csdn.net/20170104144243566?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170104144252560?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="具有比特差错的丢包信道的可靠数据传输-rdt-3-0"><a href="#具有比特差错的丢包信道的可靠数据传输-rdt-3-0" class="headerlink" title="具有比特差错的丢包信道的可靠数据传输: rdt: 3.0"></a>具有比特差错的丢包信道的可靠数据传输: rdt: 3.0</h3><p>如果发送者发送了一个分组，该分组丢失，或者接受方对该分组的ack丢失，这两种情况下，发送方都收不到应当到来的接收方的响应，如果发送方愿意等待足够长的时间确定分组已经丢失，那么只需要重传该分组就可以了。</p>
+<p>很明显发送方至少要等待发送方与接收方之间的一个往返时延+接收方处理分组的时间。</p>
+<p>为了实现基于时间的重传机制，需要一个倒计数定时器：</p>
+<ol>
+<li><p>每次发送一个分组（包括第一个分组和重传分组）时启动一个定时器</p>
+</li>
+<li><p>响应定时器中断（采取适当操作）</p>
+</li>
+<li><p>终止定时器</p>
+</li>
+</ol>
+<p><img src="http://img.blog.csdn.net/20170104144356973?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170104144408942?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="流水线可靠数据传输协议"><a href="#流水线可靠数据传输协议" class="headerlink" title="流水线可靠数据传输协议"></a>流水线可靠数据传输协议</h3><p>由于停等协议的发送方利用率非常低，需要采用流水线的方式发送分组，采取流水线需要</p>
+<ol>
+<li><p>增加序号范围</p>
+</li>
+<li><p>协议的发送方和接收方必须缓存多个分组</p>
+</li>
+<li><p>所需序号范围和对缓冲的要求取决于数据传输协议如何处理丢失：包括 <strong>回退n步</strong>，<strong>选择重传</strong></p>
+</li>
+</ol>
+<h3 id="回退N步（GBN）-协议"><a href="#回退N步（GBN）-协议" class="headerlink" title="回退N步（GBN） 协议"></a>回退N步（GBN） 协议</h3><p><img src="http://img.blog.csdn.net/20170104144532551?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>GBN 协议允许发送方发送多个分组（当有多个分组可用时），而不需等待确认，但它也受限于在流水线中未确认的分组数不能超过某个最大允许数 N。</p>
+<p>N 常被称为窗口长度，GBN协议也常被称为滑动窗口协议。</p>
+<p>GBN 发送方必须响应三种类型的事件：</p>
+<ol>
+<li><p>上层调用。当上层调用时，先检查发送窗口是否已满，如果窗口未满，产生一个分组并发送，如果窗口已满，将数据返回给上层，然后上层可能过一会儿再试。</p>
+</li>
+<li><p>收到一个 ACK 在GBN协议中，对需要为n的分组的确认采取累积确认，表明接受方已经正确接受到序号为n的以前包括n在内的所有分组。</p>
+</li>
+<li><p>超时事件 如果出现超时，发送方重传所有已发送但未被确认的分组</p>
+</li>
+</ol>
+<p><img src="http://img.blog.csdn.net/20170104144541970?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>在gbn中，接受者如果序号k的分组已经交付给上层，那么比k小的也已经交付。</p>
+<p>在gbn中，接收方丢弃所有失序分组，当接收方等待分组n 时，分组n+1 到了，这时会丢掉分组n+1,等到发送方发现超时后，重传分组n,和分组n+1及后面的分组。这种方法的优点是接收缓存简单。</p>
+<p>发送方需要维护窗口的上下边界及nextsequm在该窗口的位置，接收方需要维护的唯一信息是下一个按序接收的分组的序号。</p>
+<p><img src="http://img.blog.csdn.net/20170104144551208?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170104144604002?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="选择重传-SR-协议"><a href="#选择重传-SR-协议" class="headerlink" title="选择重传(SR)协议"></a>选择重传(SR)协议</h3><p><img src="http://img.blog.csdn.net/20170104144755365?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>顾名思义，选择重传协议通过让发送方仅重传那些它怀疑在接收方出错的分组而避免了不必要的重传。</p>
+<h4 id="SR-发送方的事件"><a href="#SR-发送方的事件" class="headerlink" title="SR 发送方的事件"></a>SR 发送方的事件</h4><p><strong>从上层获得数据</strong></p>
+<p>从上层获得数据时，检查下一个可用于该分组的序号，如果该序号位于发送方的窗口内，将数据打包发送，否则就像在gbn中一样，要么将数据缓存，要么将他返回给上层以便以后传输。</p>
+<p><strong>超时</strong></p>
+<p>现在每个分组必须用用自己的逻辑定时器，因为超时发生后只能发送一个分组。</p>
+<p><strong>收到ACK</strong></p>
+<p>倘若该分组序号在窗口内，发送方将那个被确认的分组标记为已接收。</p>
+<p>如果该分组的序号等于 send_base ，窗口基序号向前移动到具有最小序号的未确认分组处。</p>
+<p>如果窗口移动了且有序号落在窗口内的未发送分组，则发送这些分组。</p>
+<h4 id="SR-接受者事件"><a href="#SR-接受者事件" class="headerlink" title="SR 接受者事件"></a>SR 接受者事件</h4><p>SR 接收方将确认一个分组而不管其是否按序，失序分组将被缓存直到所有丢失分组收到为止，这时才可以将一批分组按序交付给上层。</p>
+<p><strong>序号在 [rcv_base ,rcv_base+N-1] 内的分组被正确接收</strong> 一个选择ACK 被会送给发送方。如果该分组以前没有接收过，则缓存该分组。如果该分组的序号等于接收窗口的基序号 rcv_base 则该分组以及之前缓存的序号连续的分组交付给上层。比如已收到 分组序号为 2 且此时 rcv_base 时，之前的失序分组 3 4 5 可以和2 一起交付给上层。</p>
+<p><strong>序号在[rcv_base-N,rcv_base -1] 内的分组被正确接收</strong> 此时必须产生一个ack，即使接收方已经确认过。这一步很重要，接收方重新确认已收到的那些序号小于当前窗口基序号的分组，因为接收方和发送方看到的窗口并不总是一致。</p>
+<p><strong>其他情况</strong></p>
+<p>忽略分组</p>
+<p>对SR协议而言，窗口长度必须小于或等于序号空间大小的一半。</p>
+<h3 id="可靠数据传输机制及其用途"><a href="#可靠数据传输机制及其用途" class="headerlink" title="可靠数据传输机制及其用途"></a>可靠数据传输机制及其用途</h3><p><strong>检验和</strong></p>
+<p>检测一个传输分组中的比特错误</p>
+<p><strong>定时器</strong></p>
+<p>用于 超时/重传 一个分组。 可能因为一个分组或者它的ACK 在信道丢失了，需要超时重传。</p>
+<p><strong>序号</strong></p>
+<p>用于发送方流向接受方的数据流的分组按序编号，用于检测丢失分组，失序分组，相同序号的分组的确认可以让接收方检测出一个分组的冗余。</p>
+<p><strong>确认</strong></p>
+<p>用于接收方通知发送方一个分组正确接收。确认可以是累积的或者逐个的。</p>
+<p><strong>否定确认</strong></p>
+<p>用于发送方告知某个分组未被正确接收</p>
+<p><strong>窗口，流水线</strong></p>
+<p>通过限制窗口长度，限制发送方发送速率。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-TCP协议" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/03/TCP协议/" class="article-date">
+  	<time datetime="2017-01-03T09:16:34.000Z" itemprop="datePublished">2017-01-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>TCP 是<strong>面向连接</strong>的，但是其连接状态只保存在两个端系统中，tcp协议只运行在端系统中，中间的网络元素不会维护连接状态，中间的路由器对tcp连接完全视而不见，它们看到的只是数据报，而不是连接。</p>
+<p>TCP 是<strong>全双工的服务</strong>：如果在主机A与主机B之间建立了一条tcp连接，主机a可以向主机b传输数据，主机b也可以向主机a传输数据。</p>
+<p>TCP 是<strong>点对点的</strong>：即在单个发送方与单个接收方之间的连接。</p>
+<p>TCP 从缓存中读取并放入报文段中的数据数量受限于<strong>最大报文长度 MSS（Maximum Segment Size）</strong>,MSS 通常根据最初始确定的由本地发送主机发送的<strong>最大链路帧长度（最大传输单元 Maximum Transmission Unit MTU）</strong>来设置。通常MTU 为 1500 字节，典型的tcp首部为40字节，因此典型的tcp的 MSS 为1460字节。</p>
+<h3 id="TCP-报文段结构"><a href="#TCP-报文段结构" class="headerlink" title="TCP 报文段结构"></a>TCP 报文段结构</h3><p>TCP 报文段由首部字段和一个数据字段组成。</p>
+<p>首部包括:</p>
+<ul>
+<li><p>源端口号，目的端口号，各16比特</p>
+</li>
+<li><p>序号，确认号。各32比特</p>
+</li>
+<li><p>接收窗口长度 16比特 。用于接收方愿意接收的数据数量</p>
+</li>
+<li><p>首部长度 4 比特。因为tcp存在选项字段，因此tcp首部长度可变</p>
+</li>
+<li><p>可选与变长的选项字段。</p>
+</li>
+<li><p>标识字段 6 比特。如 ACK,SYN,FIN 等。</p>
+</li>
+</ul>
+<p><strong>序号</strong>：该报文段的首字节的字节流编号</p>
+<p><strong>确认号</strong>：对于确认号n，表示n-1及之前的字节已经正确按序接收，希望获取从n开始的数据。因此tcp也被称为是提供累积确认的。</p>
+<p><strong>捎带</strong>： 例如：对客户发送到服务器的数据的确认被放在服务器发送到客户的数据的报文中。</p>
+<h3 id="往返时间与超时"><a href="#往返时间与超时" class="headerlink" title="往返时间与超时"></a>往返时间与超时</h3><p><strong>样本RTT （SampleRTT）</strong> 从报文段被发出到对该报文段的确认被接收之间的时间量，大多数tcp实现仅在某个时刻做一次SampleRTT 测量，而不是每个发送的报文进行测量。TCP 绝不为重传的报文段计算SampleRTT </p>
+<p><strong>EstimatedRTT(SampleRTT 均值)</strong> 一旦获取一个新的 SampleRTT ,会计算新的 EstimatedRTT 。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">EstimatedRTT=(1-a)×EstimatedRTT+a×SampleRTT</span><br></pre></td></tr></table></figure>
+<p>a 的参考值为0.125</p>
+<p><strong>DevRTT(RTT 偏差)</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DevRTT=(1-b)×DevRTT+b×|SampleRTT-EstimatedRTT|</span><br></pre></td></tr></table></figure>
+<p><strong>超时时间间隔</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">TimeoutInterval=EstimatedRTT+4×DevRTT</span><br></pre></td></tr></table></figure>
+<h3 id="可靠的数据传输"><a href="#可靠的数据传输" class="headerlink" title="可靠的数据传输"></a>可靠的数据传输</h3><p>TCP 在 IP 的不可靠尽力而为服务上创建了一种可靠数据传输服务，TCP的可靠数据传输服务确保一个进程从其接收缓存中读取出来的数据流是无损坏，无间隔，非冗余和按序的数据流。</p>
+<p>累积确认的ACK在新的超时发生前到达，可以避免不必要的重传。</p>
+<p><strong>超时间隔加倍</strong></p>
+<p>每次tcp超时重传时都将下一次的超时时间间隔设置为先前值的两倍。</p>
+<h4 id="快速重传"><a href="#快速重传" class="headerlink" title="快速重传"></a>快速重传</h4><p>超时间隔加倍可能导致超时时间相对比较长，但是通常可以在超时时间发生前，通过注意冗余ack检测丢包的情况。</p>
+<p><strong>产生ack的建议</strong></p>
+<ol>
+<li><p><strong>如果：具有所期望的序号的按序报文到达，所有在期望序号及之前的数据已经确认。：</strong> 延迟发送ACK 。对另一个按序报文段的到达最多等待500ms，如果下一个按序报文段没有在这个时间间隔内到达，则发送一个ack。</p>
+</li>
+<li><p><strong>如果：具有期望的序号的报文按序到达，另一个按序报文段等待ack传输</strong>: 立即发送一个累积ack，确认两个按序报文段。</p>
+</li>
+<li><p><strong>如果：比期望序号大的失序报文段到达，检测出间隔</strong> 立即发送冗余ack，指示下一个期待字节的序号</p>
+</li>
+<li><p><strong>如果：能部分或完全填充数据间隔的报文段到达</strong> 倘若该报文段起始于间隔的低端，立刻发送ack。</p>
+</li>
+</ol>
+<p>发送方如果检测到3个冗余ack（同一个报文段的4次ack），就执行快速重传。</p>
+<h2 id="TCP-连接管理"><a href="#TCP-连接管理" class="headerlink" title="TCP 连接管理"></a>TCP 连接管理</h2><p><img src="http://img.blog.csdn.net/20170103203036017?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="TCP-三次握手-建立连接"><a href="#TCP-三次握手-建立连接" class="headerlink" title="TCP 三次握手 建立连接"></a>TCP 三次握手 建立连接</h3><ol>
+<li><p>第一步：客户端发起建立连接，置 SYN 为 1，随机选择一个初始序号 client_isn 置于序号字段。</p>
+</li>
+<li><p>第二步: 服务端收到建立连接的请求，同意连接，分配缓存和变量等（可能使得tcp易于受到syn洪泛攻击）。发送报文：置 SYN 为 1,确认号 为 client_isn + 1 ，将序号置为一个初始序号 server_isn .这个报文有时候称为 SYNACK 报文</p>
+</li>
+<li><p>第三步:客户端收到 SYNACK 报文后，客户端为该连接分配缓存和变量，向服务器确认，发送报文：确认号为 server_isn+1 (这里 SYN 为 0) ，这个报文可以捎带客户端发送给服务器的数据。</p>
+</li>
+</ol>
+<h4 id="为什么需要三次握手"><a href="#为什么需要三次握手" class="headerlink" title="为什么需要三次握手"></a>为什么需要三次握手</h4><p>因为 tcp 要实现一个全双工的可靠的数据传输协议，保证接收端交付给上层的是无损坏，无间隔，非冗余和按序的数据流。那么就需要用到序号和确认号：</p>
+<p>在第一次握手中，客户端向服务器表达了要建立连接的请求，并随机初始化了一个序号，有了客户端的初始序号，才能保证服务器发送给客户端的数据是按序的。</p>
+<p>当服务器了解到客户端的请求后，同意建立连接，并分配了一些缓存和变量后，服务器得要让客户端知道自己同意了建立连接，就需要 ACK client_isn+1, 同时为了以后客户端能够正确的发送数据到服务器，就需要发送自己的一个初始化的序号 server_isn, 服务器的初始序号和对客户端建立连接建立的请求的ACK 可以合并为第二次握手。</p>
+<p>当服务器发送了第二次握手后，这时服务器是知道客户端的初始序号的，但是它并不知道客户端是否知道了自己的初始化序号，因此需要等待客户端的ACK ，客户端得到第二次握手的报文后，得知了服务器的初始序号 server_isn ,需要向服务器确认自己已经知道了服务器的初始化序号，就需要 ACK server_isn+1 ， 当服务器知道客户端确认了自己的初始序号，此时连接的双方都能够通过正确的对方的序号发送报文，确保数据流的可靠。这就是第三次握手，第三次握手的同时可以捎带客户端发送给服务器的数据。</p>
+<p>当第二次握手，服务器发送 SYNACK 报文后， 收到客户端对该报文的ACK 前，如果超时后仍然没有收到 ACK ，就会重发 SYNACK 报文，等待 客户端的 确认，多次尝试后回关闭这个连接。</p>
+<p><strong>关于建连接时SYN超时</strong></p>
+<p>试想一下，如果server端接到了clien发的SYN后回了SYN-ACK后client掉线了，server端没有收到client回来的ACK，那么，这个连接处于一个中间状态，即没成功，也没失败。于是，server端如果在一定时间内没有收到的TCP会重发SYN-ACK。在Linux下，默认重试次数为5次，重试的间隔时间从1s开始每次都翻售，5次的重试时间间隔为1s, 2s, 4s, 8s, 16s，总共31s，第5次发出后还要等32s都知道第5次也超时了，所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 2^6 -1 = 63s，TCP才会把断开这个连接。</p>
+<p><strong>关于SYN Flood攻击。</strong></p>
+<p>一些恶意的人就为此制造了SYN Flood攻击——给服务器发了一个SYN后，就下线了，于是服务器需要默认等63s才会断开连接，这样，攻击者就可以把服务器的syn连接的队列耗尽，让正常的连接请求不能处理。于是，Linux下给了一个叫tcp_syncookies的参数来应对这个事——当SYN队列满了后，TCP会通过源地址端口、目标地址端口和时间戳打造出一个特别的Sequence Number发回去（又叫cookie），如果是攻击者则不会有响应，如果是正常连接，则会把这个 SYN Cookie发回来，然后服务端可以通过cookie建连接（即使你不在SYN队列中）。请注意，请先千万别用tcp_syncookies来处理正常的大负载的连接的情况。因为，synccookies是妥协版的TCP协议，并不严谨。对于正常的请求，你应该调整三个TCP参数可供你选择，第一个是：tcp_synack_retries 可以用他来减少重试次数；第二个是：tcp_max_syn_backlog，可以增大SYN连接数；第三个是：tcp_abort_on_overflow 处理不过来干脆就直接拒绝连接了。</p>
+<p><strong>关于ISN的初始化。</strong></p>
+<p>ISN是不能hard code的，不然会出问题的——比如：如果连接建好后始终用1来做ISN，如果client发了30个segment过去，但是网络断了，于是 client重连，又用了1做ISN，但是之前连接的那些包到了，于是就被当成了新连接的包，此时，client的Sequence Number 可能是3，而Server端认为client端的这个号是30了。全乱了。RFC793中说，ISN会和一个假的时钟绑在一起，这个时钟会在每4微秒对ISN做加一操作，直到超过2^32，又从0开始。这样，一个ISN的周期大约是4.55个小时。因为，我们假设我们的TCP Segment在网络上的存活时间不会超过Maximum Segment Lifetime（缩写为MSL – Wikipedia语条），所以，只要MSL的值小于4.55小时，那么，我们就不会重用到ISN。</p>
+<h3 id="TCP-四次挥手-断开连接"><a href="#TCP-四次挥手-断开连接" class="headerlink" title="TCP 四次挥手 断开连接"></a>TCP 四次挥手 断开连接</h3><ol>
+<li><p>第一步：客户端发起一个特殊报文 FIN 置为1， 请求断开连接。客户端进入 FIN_WAIT_1 状态，表示客户端没有数据发送给服务器了。</p>
+</li>
+<li><p>第二步：服务器确认 客户端的 FIN 。客户端受到服务器的 ACK 后，进入 FIN_WAIT_2 状态。服务器进入 CLOSE_WAIT 状态。这一步表示服务器同意了客户端关闭连接。</p>
+</li>
+<li><p>第三步：服务器向客户端发送一个  FIN。服务器进入 LAST_ACK 状态。</p>
+</li>
+<li><p>第四步：客户端向服务器确认FIN  发送 ACK 报文，进入 TIME_WAIT 状态，如果服务器正确收到了这个 ACK ，服务器就可以关闭连接了，如果客户端经过 2 msl 后没有受到服务器的回复，说明服务器正确关闭，客户端也可以关闭了。</p>
+</li>
+</ol>
+<h4 id="为什么需要四次挥手"><a href="#为什么需要四次挥手" class="headerlink" title="为什么需要四次挥手"></a>为什么需要四次挥手</h4><p>MSL是Maximum Segment Lifetime,译为“报文最大生存时间”，他是任何报文在网络上存在的最长时间，超过这个时间报文将被丢弃。</p>
+<p>因为tcp是全双工的，连接双方都需要请求关闭连接，并需要得到对方的确认。</p>
+<p>第一步和第二步：客户端请求断开连接，服务器同意断开连接</p>
+<p>第三步和第四步：服务器请求断开连接，客户端同意断开连接。服务器知道客户端同意断开连接后，服务器可以释放资源，因为不需要接收客户端数据了。客户端发送 ACK 后并不能立刻释放资源，因为可能这个 ACK 会丢掉，那么还需要接收服务器的重发的 FIN ，这个 ACK 发出去，和重发的 FIN ， 这一来一去就需要两个 MSL  ，在这个时间内没有收到 服务器的回应，说明服务器正常关闭并释放资源了，那么此时客户端也可以释放资源了。</p>
+<h2 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h2><p>使得发送方的发送速率与接收方应用程序读取速率相匹配。消除因接收段读取数据时相对缓慢，而发送方发送数据太快太多导致的连接的接收缓冲溢出。</p>
+<p>TCP头里有一个字段叫<strong>Window</strong>，又叫<strong>Advertised-Window</strong>，这个字段是接收端告诉发送端自己还有多少缓冲区可以接收数据。于是发送端就可以根据这个接收端的处理能力来发送数据，而不会导致接收端处理不过来</p>
+<p>发送端：</p>
+<p><strong>LastByteWritten</strong>:上层应用正在写的位置。</p>
+<p><strong>LastByteAcked</strong>:被接收端ACK过的位置，表示成功发送确认了。</p>
+<p><strong>LastByteSent</strong>:发出去了，但是没有被确认的位置。</p>
+<p>接收端：</p>
+<p><strong>LastByteRead</strong>:上层应用正在读的位置。</p>
+<p><strong>NextByteExpected</strong>:收到的 <strong>连续包</strong> 的最后一个位置。</p>
+<p><strong>LastByreRcvd</strong>:收到的包的最后一个位置</p>
+<p>由于TCP 不允许已经分配的缓存溢出，下式必须成立</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">LastByteRcvd-LastByteRead&lt;=RecvBuffer</span><br></pre></td></tr></table></figure>
+<p>接收窗口用rwnd表示，根据缓存可用空间的数量来设置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rwnd=RecvBuffer-[LastByteRcvd-LastByteRead]</span><br></pre></td></tr></table></figure>
+<p>接收端把rwnd放在回应发送端的报文的窗口字段中。</p>
+<p>发送端接收到rwnd，会始终保持</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LastByteSent-LastByteAcked&lt;=rwnd</span><br></pre></td></tr></table></figure>
+<p>限制未确认的报文的数量在接收端的接收窗口范围内</p>
+<p><strong>特殊情况</strong></p>
+<p>如果 接收端的主机B的接收缓存已经满了，使得rwnd=0，将rwnd告知给发送端主机A之后，恰好主机B已经没有任何数据要发送给主机A了。</p>
+<p>这时：主机A因为接收端的rwnd=0，导致不会继续发送报文，而当主机B的应用程序将缓存清空后，主机A也无法得知B已经有了行的缓存空间，导致主机A阻塞不能继续发送数据。</p>
+<p>为了防止这种情况，TCP规范要求，当主机B的接收窗口为0时，主机A继续发送只有一个字节数据的报文段。这些报文段将被接收方确认，最终缓存将开始情况，并且确认报文段里将包含一个非0的rwnd值。</p>
+<h2 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h2><p>如果网络上的延时突然增加，那么，TCP对这个事做出的应对只有重传数据，但是，重传会导致网络的负担更重，于是会导致更大的延迟以及更多的丢包，于是，这个情况就会进入恶性循环被不断地放大。试想一下，如果一个网络内有成千上万的TCP连接都这么行事，那么马上就会形成“网络风暴”，TCP这个协议就会拖垮整个网络</p>
+<p>所以，TCP不能忽略网络上发生的事情，而无脑地一个劲地重发数据，对网络造成更大的伤害。对此TCP的设计理念是：<strong>TCP不是一个自私的协议，当拥塞发生的时候，要做自我牺牲。就像交通阻塞一样，每个车都应该把路让出来，而不要再去抢路了</strong>。</p>
+<p>###如何限制发送速率？</p>
+<p><strong>拥塞窗口cwnd</strong></p>
+<p>发送方通过跟踪一个额外的变量，即拥塞窗口（cwnd）对一个tcp发送方能向网路中发送流量的速率进行了限制。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LastByteSent-LastByteAcked&lt;=min(cwnd,rwnd)</span><br></pre></td></tr></table></figure>
+<p>限制发送方中未被确认的数据量，间接的限制发送方的发送速率。在每个往返时间（RTT）的起始点，上面的限制条件允许发送放向该连接发送cwnd个字节的数据，在该RTT结束时发送方接收对数据的确认报文。因此发送方的发送速率大概是cwnd/RTT 字节/秒。因此，通过调节cwnd的值，发送方能条件向连接发送数据的速率。</p>
+<p>###如何感知需要调节发送速率？</p>
+<p><strong>发送方TCP丢包事件：</strong></p>
+<ul>
+<li>超时</li>
+<li>收到接收方的3各冗余ACK</li>
+</ul>
+<p>当发生丢包事件后，就可以认为网路发生了拥塞。</p>
+<p><strong>确认报文</strong></p>
+<p>一个确认报文指示该网路正在向接收方交付发送方的报文段，因此对先前未确认的报文确认到达时，能增加发送方的速率。</p>
+<p>###采用何种方法调节发送速率？</p>
+<p>拥塞控制主要有这几个算法：</p>
+<ul>
+<li>慢启动</li>
+<li>拥塞避免</li>
+<li>快速恢复</li>
+</ul>
+<h4 id="慢启动"><a href="#慢启动" class="headerlink" title="慢启动"></a>慢启动</h4><ol>
+<li>cwnd值以一个MSS开始</li>
+</ol>
+<p><strong>收到确认ACK</strong></p>
+<ol>
+<li>每当传输的报文首次确认，增加一个MSS</li>
+<li>dupACKcount 设置为 0</li>
+</ol>
+<p>发送完第一个报文等待确认，当确认到达，发送方将拥塞窗口增加一个MSS，然后再发送两个最大长度的报文，当着两个报文的确认到达时，为每个确认增加一个MSS，于是此时cwnd增加到四个MSS。这样下去，导致：<strong>每经过一个RTT，发送速率翻一倍</strong></p>
+<p>所以说，慢<strong>启动只是起始慢，但是确以指数速度增长</strong>。</p>
+<p><strong>慢启动阈值 ssthresh</strong>:</p>
+<p>当慢启动状态时，cwnd增长到或者超过 ssthresh 时，结束慢启动，<strong>进入拥塞避免模式</strong>。</p>
+<p><strong>超时指示的丢包（拥塞）</strong>：</p>
+<ol>
+<li>慢启动阈值 ssthresh 设置为 cwnd/2</li>
+<li>发送方将cwnd设置为1 MSS</li>
+<li>dupACKcount 设置为0</li>
+<li>重传数据</li>
+<li><strong>重新启动慢启动过程</strong></li>
+</ol>
+<p><strong>冗余ACK</strong></p>
+<ol>
+<li>dupACKcount++</li>
+</ol>
+<p><strong>3个冗余ACK</strong>：</p>
+<ol>
+<li>ssthresh=cwnd/2</li>
+<li>cwnd=ssthresh+3 MMS</li>
+<li>重传数据</li>
+<li>进入快速恢复状态</li>
+</ol>
+<p>####拥塞避免</p>
+<p><strong>收到确认ACK</strong></p>
+<p>一旦进入拥塞避免状态，cwnd的值大约是上次遇到拥塞时cwnd值的一半（因为在慢启动中，遇到拥塞时，会将ssthresh设置为cwnd/2,而因为之后cwnd达到ssthresh（上个cwnd/2）时，进入拥塞避免）距离拥塞可能并不遥远，所以不能让每经过一个RTT就让cwnd翻倍了。所以：</p>
+<ol>
+<li>收到一个ACK时，cwnd增加 MSS/cwnd 字节</li>
+<li>dupACKcount 设为0</li>
+</ol>
+<p>因为每个RTT 可以发送 cwnd/MSS 个报文，所以如果在一个RTT 正常受到这些发出去的报文的ACK ，那么增加 (cwnd/MSS)<em>(MSS/cwnd) 个字节。也就是，<em>*每经过一个RTT，cwnd增加一个MSS</em></em></p>
+<p>例如：如果MSS 为1460字节且cwnd为14600字节，那么在一个RTT内发送10个报文，当每个ACK到达，增加1/10 MSS 的cwnd，因此收到所有10个报文段的确认后，拥塞窗口值增加了1个MSS</p>
+<p><strong>超时</strong></p>
+<ol>
+<li>ssthresh 设置为cwnd/2</li>
+<li>cwnd设置为一个MSS</li>
+<li>dupACKcount 设为 0</li>
+<li><strong>进入慢启动</strong></li>
+</ol>
+<p><strong>3个冗余ACK</strong></p>
+<ol>
+<li>ssthresh 设置为cwnd/2</li>
+<li>cwnd=ssthresh+3 MSS</li>
+<li>重传数据</li>
+<li><strong>进入快速恢复</strong></li>
+</ol>
+<h4 id="快速恢复"><a href="#快速恢复" class="headerlink" title="快速恢复"></a>快速恢复</h4><p>快速恢复是tcp推荐但是并不是必须的构件。</p>
+<p>回顾下发生快速恢复前发生了什么（收到了3个冗余ACK，可以认为数据丢失）（可能是从慢启动或者是拥塞避免状态转换而来）</p>
+<ol>
+<li>ssthresh 设置为cwnd/2</li>
+<li>cwnd=ssthresh+3 MSS</li>
+<li>重传丢失的数据</li>
+</ol>
+<p>在快速恢复状态：</p>
+<p><strong>继续收到冗余ACK</strong></p>
+<ol>
+<li>cwnd 增加一个 MSS</li>
+</ol>
+<p><strong>收到新的ACK</strong></p>
+<ol>
+<li>cwnd=ssthresh</li>
+<li>dupACKcount 设为 0</li>
+<li>进入拥塞避免</li>
+</ol>
+<p>如果你仔细思考一下上面的这个算法，你就会知道，上面这个算法也有问题，那就是——它依赖于3个重复的Acks。注意，3个重复的Acks并不代表只丢了一个数据包，很有可能是丢了好多包。但这个算法只会重传一个，而剩下的那些包只能等到RTO超时，于是，进入了恶梦模式——超时一个窗口就减半一下，多个超时会超成TCP的传输速度呈级数下降，而且也不会触发Fast Recovery算法了。</p>
+<p><strong>丢包</strong></p>
+<ol>
+<li>ssthresh=cwnd/2</li>
+<li>cwnd=1</li>
+<li>dupACKcount 设为 0</li>
+<li>进入慢启动</li>
+</ol>
+<h4 id="tcp拥塞控制回顾"><a href="#tcp拥塞控制回顾" class="headerlink" title="tcp拥塞控制回顾"></a>tcp拥塞控制回顾</h4>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-传输层与UDP协议" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/29/传输层与UDP协议/" class="article-date">
+  	<time datetime="2016-12-29T03:38:34.000Z" itemprop="datePublished">2016-12-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>运输层协议为运行在不同主机上的应用进程间提供了逻辑通信。</p>
+<p>TCP/UDP 最基本的责任是将两个端系统间ip的交付服务扩展为运行在端系统上的两个进程之间的交付服务，将主机间交付服务扩展到进程间交付称为运输层的多路复用与多路分解。</p>
+<p>IP的服务模型是尽力而为交付的服务，是不可靠服务。</p>
+<h4 id="运输层如何实现分解服务？"><a href="#运输层如何实现分解服务？" class="headerlink" title="运输层如何实现分解服务？"></a>运输层如何实现分解服务？</h4><p>在主机的每个套接字能够分配一个端口号，当报文到达主机时，运输层检查报文段中的端口号，并将其定向到相应的套接字，然后报文段中的数据通过套接字进入其所连接的进程。</p>
+<h3 id="多路复用与多路分解"><a href="#多路复用与多路分解" class="headerlink" title="多路复用与多路分解"></a>多路复用与多路分解</h3><p><strong>一个udp套接字由一个二元组标识</strong></p>
+<p>udp套接字包括：目的ip地址，目的端口。</p>
+<p>即：如果两个udp报文段有不同的源ip地址/源端口,但是具有相同的目的ip地址和目的端口，那么这两个报文将通过相同的套接字定向到相同的目的进程。</p>
+<p><strong>一个tcp套接字由一个四元组标识</strong></p>
+<p>tcp 套接字由：（源ip，源端口，目的ip，目的端口） 标识</p>
+<p>当两个具有不同源ip地址或源端口的到达的tcp报文被定向到两个不同套接字，除非tcp报文段携带了初始创建连接的请求。</p>
+<h2 id="无连接传输：UDP"><a href="#无连接传输：UDP" class="headerlink" title="无连接传输：UDP"></a>无连接传输：UDP</h2><p>运输层最低限度必须提供一种复用/分解服务，以便在网络与正确的应用级进程之间传递数据。</p>
+<p>udp只是做运输协议能够做的最少工作，除了复用/分解功能及少量大差错检测外，几乎没有对ip层增加别的东西。</p>
+<p>DNS 是使用udp协议的一个例子。</p>
+<p><img src="http://img.blog.csdn.net/20170104143149952?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FycHRlbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="既然tcp可以提供可靠传输服务，udp不能，为什么还需要udp协议呢？"><a href="#既然tcp可以提供可靠传输服务，udp不能，为什么还需要udp协议呢？" class="headerlink" title="既然tcp可以提供可靠传输服务，udp不能，为什么还需要udp协议呢？"></a>既然tcp可以提供可靠传输服务，udp不能，为什么还需要udp协议呢？</h4><ol>
+<li><p><strong>关于何时.发送什么数据的应用层控制更为精细。</strong>： tcp会使用拥塞控制遏制运输层发送方发送速率，且仍继续发送数据报文直到目的主机确认，而不管可靠交付需要多长时间。但是一些实时应用需要更高的速率，不希望过分的延迟报文段传送，且能容忍一些数据丢失。</p>
+</li>
+<li><p><strong>无需建立连接</strong> ： tcp需要三次握手，udp不需要，因此udp不会引入建立连接的时延</p>
+</li>
+<li><p><strong>无连接状态</strong>：tcp需要维护连接状态（接收方发送方缓存，拥塞控制参数，序号，确认号等）。udp不维护连接状态，不跟踪这些参数，可以支持更多的活跃用户。</p>
+</li>
+<li><p><strong>分组首部开销小</strong></p>
+</li>
+</ol>
+<p>需要注意的是：</p>
+<ol>
+<li><p>udp缺少拥塞控制能够导致udp发送方和接收方之间的高丢包率，并击垮了tcp</p>
+</li>
+<li><p>使用udp的应用是可以实现可靠数据传输的，这可通过应用程序自身建立可靠性机制来完成。</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-lisp" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/21/lisp/" class="article-date">
+  	<time datetime="2016-12-21T14:43:06.000Z" itemprop="datePublished">2016-12-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/21/lisp/">lisp</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight lisp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">cons</span> <span class="number">1</span> <span class="number">2</span>)</span><br><span class="line"><span class="comment">; '(1 . 2)</span></span><br><span class="line">`(+ <span class="number">1</span> <span class="number">2</span>)</span><br><span class="line"><span class="comment">; '(+ 1 2)</span></span><br><span class="line">(<span class="name">car</span> `(<span class="number">1</span> <span class="number">2</span>))</span><br><span class="line"><span class="comment">; 1</span></span><br><span class="line">(<span class="name">cdr</span> `(<span class="number">1</span> <span class="number">2</span>))</span><br><span class="line"><span class="comment">; '(2)</span></span><br><span class="line">(<span class="name">car</span> `(<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> . <span class="number">4</span>))</span><br><span class="line"><span class="comment">; 1</span></span><br><span class="line">(<span class="name">cdr</span> `(<span class="number">1</span> <span class="number">2</span> <span class="number">4</span> . <span class="number">4</span>))</span><br><span class="line"><span class="comment">; '(2 4 . 4)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">list</span> '(<span class="number">1</span> <span class="number">2</span>) '(<span class="number">3</span> <span class="number">4</span>))</span><br><span class="line"><span class="comment">; '((1 2) (3 4))</span></span><br><span class="line"></span><br><span class="line">(<span class="name">list</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span>)</span><br><span class="line"><span class="comment">; '(1 2 3)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> mappend </span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">name</span>)</span><br><span class="line">		(<span class="name">string-append</span> <span class="string">"name:"</span> name)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> plus</span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">a</span> b)</span><br><span class="line">		(<span class="name">+</span> a b)))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">mappend2</span> name)</span><br><span class="line">	(<span class="name">string-append</span> <span class="string">"name:"</span>name)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">plus2</span> a b)</span><br><span class="line">	(<span class="name">+</span> a b))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> inc</span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">num</span>)</span><br><span class="line">		(<span class="name">+</span> num <span class="number">1</span>)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">dec</span> num)</span><br><span class="line">	(<span class="name">-</span> num <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> abs</span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">num</span>)</span><br><span class="line">		(<span class="name">if</span> (<span class="name">&gt;</span> num <span class="number">0</span>) </span><br><span class="line">			num </span><br><span class="line">			(<span class="name">*</span> num <span class="number">-1</span>)</span><br><span class="line">			)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> abs2)</span><br><span class="line"></span><br><span class="line"><span class="comment">; and具有任意个数的参数，并从左到右对它们求值。如果某一参数为#f，那么它就返回#f，</span></span><br><span class="line"><span class="comment">; 而不对剩余参数求值。反过来说，如果所有的参数都不是#f，那么就返回最后一个参数的值。</span></span><br><span class="line">(<span class="name">define</span> mul-g0</span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">n1</span> n2 n3)</span><br><span class="line">		(</span><br><span class="line">			<span class="name">and</span> </span><br><span class="line">				(<span class="name">&gt;</span> n1 <span class="number">0</span>) </span><br><span class="line">				(<span class="name">&gt;</span> n2 <span class="number">0</span>) </span><br><span class="line">				(<span class="name">&gt;</span> n3 <span class="number">0</span>)</span><br><span class="line">				(<span class="name">*</span> n1 n2 n3)</span><br><span class="line">				)</span><br><span class="line">			</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line"><span class="comment">; or具有可变个数的参数，并从左到右对它们求值。它返回第一个不是值#f的参数，</span></span><br><span class="line"><span class="comment">; 而余下的参数不会被求值。如果所有的参数的值都是#f的话，则返回最后一个参数的值。</span></span><br><span class="line">(<span class="name">define</span> mul-ng0</span><br><span class="line">	(<span class="name">lambda</span>(<span class="name">n1</span> n2 n3)</span><br><span class="line">		(</span><br><span class="line">			<span class="name">if</span> (<span class="name">or</span> (<span class="name">&lt;</span> n1 <span class="number">0</span>)(<span class="name">&lt;</span> n2 <span class="number">0</span>)(<span class="name">&lt;</span> n3 <span class="number">0</span>))</span><br><span class="line">			(<span class="name">*</span> n1 n2 n3)</span><br><span class="line">			#f</span><br><span class="line">			)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line"><span class="comment">; 在cond表达式中，predicates_i是按照从上到下的顺序求值，</span></span><br><span class="line"><span class="comment">; 而当predicates_i为真时，clause_i会被求值并返回。</span></span><br><span class="line"><span class="comment">; i之后的predicates和clauses不会被求值。如果所有的predicates_i都是假的话，则返回cluase_else。</span></span><br><span class="line"><span class="comment">; 在一个子句中，你可以写数条S-表达式，而clause的值是最后一条S-表达式。</span></span><br><span class="line">(<span class="name">define</span> cal-mon</span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">km</span>)</span><br><span class="line">		(<span class="name">cond</span> </span><br><span class="line">			((<span class="name">&gt;</span> km <span class="number">90</span>) <span class="string">"优秀"</span>)</span><br><span class="line">			((<span class="name">&gt;</span> km <span class="number">80</span>) <span class="string">"良好"</span>)</span><br><span class="line">			((<span class="name">&gt;=</span> km <span class="number">60</span>) <span class="string">"及格"</span>)</span><br><span class="line">			((<span class="name">&lt;</span> km <span class="number">60</span>) <span class="string">"不及格"</span>)</span><br><span class="line">			(<span class="name">else</span> <span class="string">"非法输入"</span>)</span><br><span class="line">			)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line"><span class="comment">; eq? 该函数比较两个对象的地址，如果相同的话就返回#t。</span></span><br><span class="line"><span class="comment">; 例如，(eq? str str)返回#t，因为str本身的地址是一致的。</span></span><br><span class="line"><span class="comment">; 与此相对的，因为字符串”hello”和”hello”被储存在了不同的地址中，函数将返回#f。</span></span><br><span class="line"><span class="comment">; 不要使用eq?来比较数字，因为不仅在R5RS中，甚至在MIT-Scheme实现中，它都没有指定返回值。使用eqv?或者=替代。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; eqv? 该函数比较两个存储在内存中的对象的类型和值。</span></span><br><span class="line"><span class="comment">; 如果类型和值都一致的话就返回#t。对于过程（lambda表达式）的比较依赖于具体的实现。</span></span><br><span class="line"><span class="comment">; 这个函数不能用于类似于表和字符串一类的序列比较，因为尽管这些序列看起来是一致的，但它们的值是存储在不同的地址中。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; pair? 如果对象为序对则返回#t；</span></span><br><span class="line"><span class="comment">; list? 如果对象是一个表则返回#t。要小心的是空表’()是一个表但是不是一个序对。</span></span><br><span class="line"><span class="comment">; null? 如果对象是空表’()的话就返回#t。</span></span><br><span class="line"><span class="comment">; symbol? 如果对象是一个符号则返回#t。</span></span><br><span class="line"><span class="comment">; char? 如果对象是一个字符则返回#t。</span></span><br><span class="line"><span class="comment">; string? 如果对象是一个字符串则返回#t。</span></span><br><span class="line"><span class="comment">; number? 如果对象是一个数字则返回#t。</span></span><br><span class="line"><span class="comment">; complex? 如果对象是一个复数则返回#t。</span></span><br><span class="line"><span class="comment">; real? 如果对象是一个实数则返回#t。</span></span><br><span class="line"><span class="comment">; rational? 如果对象是一个有理数则返回#t。</span></span><br><span class="line"><span class="comment">; integer? 如果对象是一个整数则返回#t。</span></span><br><span class="line"><span class="comment">; exact? 如果对象不是一个浮点数的话则返回#t。</span></span><br><span class="line"><span class="comment">; inexact? 如果对象是一个浮点数的话则返回#t。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; 在比较字符的时候可以使用char=?、char&lt;?、char&gt;?、char&lt;=?以及char&gt;=?函数。具体的细节请参见R5RS。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 比较字符串时，可以使用string=?和string-ci=?等函数。具体细节请参见R5RS。</span></span><br><span class="line"></span><br><span class="line">(<span class="name">let</span> ((<span class="name">PI</span> <span class="number">3.1415926</span> )(<span class="name">R</span> <span class="number">2</span>))</span><br><span class="line">	(<span class="name">*</span> PI R))</span><br><span class="line"></span><br><span class="line"><span class="comment">; let*只是嵌套的let表达式的语法糖而已。</span></span><br><span class="line">(<span class="name">let*</span> ((<span class="name">i</span> <span class="number">1</span>) (<span class="name">j</span> (<span class="name">+</span> i <span class="number">1</span>)))</span><br><span class="line">	(<span class="name">*</span> i j))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> fact</span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">n</span>)</span><br><span class="line">		(<span class="name">if</span> (<span class="name">&lt;=</span> n <span class="number">1</span>) </span><br><span class="line">			<span class="number">1</span> </span><br><span class="line">			(<span class="name">*</span> n (<span class="name">fact</span> (<span class="name">-</span> n <span class="number">1</span>)))</span><br><span class="line">			)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> sum </span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">lst</span>) </span><br><span class="line">		(<span class="name">if</span>(<span class="name">null</span>? lst) </span><br><span class="line">			<span class="number">0</span> </span><br><span class="line">			(<span class="name">+</span> (<span class="name">car</span> lst) (<span class="name">sum</span> (<span class="name">cdr</span> lst)))</span><br><span class="line">			)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> my-len</span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">lst</span>)</span><br><span class="line">		(<span class="name">if</span> (<span class="name">null</span>? lst)</span><br><span class="line">		<span class="number">0</span></span><br><span class="line">		(<span class="name">+</span> <span class="number">1</span> (<span class="name">my-len</span> (<span class="name">cdr</span> lst)))</span><br><span class="line">		 )</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">remove</span> x ls)</span><br><span class="line">  (<span class="name">if</span> (<span class="name">null</span>? ls)</span><br><span class="line">      '()</span><br><span class="line">      (<span class="name">let</span> ((<span class="name">h</span> (<span class="name">car</span> ls)))</span><br><span class="line">        (</span><br><span class="line">        	(<span class="name">if</span> (<span class="name">eqv</span>? x h)</span><br><span class="line">        		(<span class="name">lambda</span> (<span class="name">y</span>) y)</span><br><span class="line">        		(<span class="name">lambda</span> (<span class="name">y</span>) (<span class="name">cons</span> h y))</span><br><span class="line">        		)</span><br><span class="line">         (<span class="name">remove</span> x (<span class="name">cdr</span> ls))</span><br><span class="line">         )</span><br><span class="line">        )</span><br><span class="line">      )</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> mabs (</span><br><span class="line">	<span class="name">lambda</span> (<span class="name">num</span>) (</span><br><span class="line">		(<span class="name">if</span> (<span class="name">&gt;</span> num <span class="number">0</span>) </span><br><span class="line">			(<span class="name">lambda</span> (<span class="name">y</span>) y)</span><br><span class="line">			(<span class="name">lambda</span> (<span class="name">y</span>) (<span class="name">*</span> <span class="number">-1</span> y))</span><br><span class="line">			)</span><br><span class="line">		num</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> at-pos</span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">llst</span> lx) (  <span class="name">pos-at</span> llst lx <span class="number">0</span>     )) )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> pos-at</span><br><span class="line">	(<span class="name">lambda</span> (<span class="name">lst</span> x st) ( </span><br><span class="line">		<span class="name">cond</span> ((<span class="name">null</span>? lst) #f   )</span><br><span class="line">			((<span class="name">eqv</span>? x (<span class="name">car</span> lst) ) st)</span><br><span class="line">			(<span class="name">else</span> (<span class="name">pos-at</span> (<span class="name">cdr</span> lst) x (<span class="name">+</span> st <span class="number">1</span>)))</span><br><span class="line">		)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">factorial</span> n)</span><br><span class="line">  (<span class="name">define</span> (<span class="name">iter</span> product counter)</span><br><span class="line">    (<span class="name">if</span> (<span class="name">&gt;</span> counter n)</span><br><span class="line">        product</span><br><span class="line">        (<span class="name">iter</span> (<span class="name">*</span> counter product)</span><br><span class="line">              (<span class="name">+</span> counter <span class="number">1</span>))))</span><br><span class="line">  (<span class="name">iter</span> <span class="number">1</span> <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">at-pos</span> llst lx)</span><br><span class="line">	(<span class="name">define</span> (<span class="name">pos-at</span> lst x i) </span><br><span class="line">		( <span class="name">cond</span> </span><br><span class="line">			((<span class="name">null</span>? lst) #f)</span><br><span class="line">			((<span class="name">eqv</span>? x (<span class="name">car</span> lst)) i)</span><br><span class="line">			(<span class="name">else</span> (<span class="name">pos-at</span> (<span class="name">cdr</span> lst) x (<span class="name">+</span> i <span class="number">1</span>)))</span><br><span class="line">			) </span><br><span class="line">		) (<span class="name">pos-at</span> llst lx <span class="number">0</span>) )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">fact-tail</span> n)</span><br><span class="line">	(<span class="name">tail-fact</span> n n))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">tail-fact</span> n total)</span><br><span class="line">	(<span class="name">if</span>(<span class="name">=</span> n <span class="number">1</span> )</span><br><span class="line">		total</span><br><span class="line">		(<span class="name">let</span>  ((<span class="name">m</span> (<span class="name">-</span> n <span class="number">1</span>)))  (<span class="name">tail-fact</span> m  (<span class="name">*</span> m total))   )))</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-picasso" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -781,264 +1303,17 @@
 
 
   
-    <article id="post-viewEventDispatch" class="article article-type-post" itemscope itemprop="blogPost">
   
-    <div class="article-meta">
-      <a href="/2016/02/01/viewEventDispatch/" class="article-date">
-  	<time datetime="2016-02-01T12:11:12.000Z" itemprop="datePublished">2016-02-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/01/viewEventDispatch/">Android 事件分发机制解析</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><em>事件序列</em>　: 在屏幕上点击的瞬间会产生　ACTION_DOWN 事件，紧跟着的滑动的 ACTION_MOVE　事件　,到最后的　ACTION_DOWN 　为一个完整的事件序列</p>
-<p><em>传递顺序</em>  : 当一个事件产生后，将由顺序　Activity -&gt; Window -&gt; DecorView -&gt; ViewGroup -&gt; View 逐层分发, 在获得一个事件后，先判断是否拦截，如果拦截,则该事件序列之后的事件不需要判断是否拦截，直接交由它处理，如果不拦截，则分发给子view,子View 重复该分发的步骤并返回是否处理，如果子view不处理，则自己处理该事件，如果它不处理，即onTouchEvent 返回 false 则将事件抛至上层处理,直到Activity</p>
-<p><em>事件拦截</em>  : 如果一个 ViewGroup中的 onInterceptTouchEvent 返回 true ，表示当前ViewGroup 要拦截当前事件,则该ViewGroup的onTouchEvent将会调用；如果不拦截，将会把事件分发给子view.<br>注意拦截ACION_DOWN与其他ACTION的差异:</p>
-<ul>
-<li>第1种情况：如果ACTION_DOWN的事件没有被拦截，顺利找到了TargetView，那么后续的MOVE与UP都能够下发。如果后续的MOVE与UP下发时还有继续拦截的话，事件只能传递到拦截层，并且发出ACTION_CANCEL。</li>
-<li>第2种情况：如果ACITON_DOWN的事件下发时被拦截，导致没有找到TargetView，那么后续的MOVE与UP都无法向下派发了，在Activity层就终止了传递。</li>
-</ul>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/02/01/viewEventDispatch/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-javaRegex" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/12/13/javaRegex/" class="article-date">
-  	<time datetime="2015-12-13T10:41:06.000Z" itemprop="datePublished">2015-12-13</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/13/javaRegex/">JAVA正则表达式</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>转载自 <a href="http://www.runoob.com/java/java-regular-expressions.html">java正则表达式</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<br>正则表达式定义了字符串的模式。<br>正则表达式可以用来搜索、编辑或处理文本。<br>正则表达式并不仅限于某一种语言，但是在每种语言中有细微的差别。<br>Java正则表达式和Perl的是最为相似的。</p>
-<blockquote>
-<ul>
-<li><strong>Pattern</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;pattern对象是一个正则表达式的编译表示。Pattern类没有公共构造方法。要创建一个Pattern对象，你必须首先调用其公共静态编译方法，它返回一个Pattern对象。该方法接受一个正则表达式作为它的第一个参数。</li>
-<li><strong>Matcher</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;Matcher对象是对输入字符串进行解释和匹配操作的引擎。与Pattern类一样，Matcher也没有公共构造方法。你需要调用Pattern对象的matcher方法来获得一个Matcher对象。</li>
-<li><strong>PatternSyntaxException</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;PatternSyntaxException是一个非强制异常类，它表示一个正则表达式模式中的语法错误。</li>
-</ul>
-</blockquote>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/12/13/javaRegex/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-javaMultiThread" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/12/12/javaMultiThread/" class="article-date">
-  	<time datetime="2015-12-12T05:27:30.000Z" itemprop="datePublished">2015-12-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/12/javaMultiThread/">java多线程总结</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>&nbsp; &nbsp; &nbsp; &nbsp;多线程程序在较低的层次上拓展了多任务的概念:一个程序同时执行多个任务.通常,每个任务被称为一个线程,它是线程控制的简称.可以同时运行一个以上线程的程序通常称为多线程程序.<br>&nbsp; &nbsp; &nbsp; &nbsp;那么,多进程与多线程有哪些区别呢?本质的区别在于每个进程有自己的一套变量,而多线程共享数据.这听起来似乎有些风险,但是也是这样,然而共享变量使得线程间的通信比进程之间的通信更加有效,更容易,此外,在有些操作系统中,与进程相比,线程更轻量级,创建,撤销一个线程比启动一个进程的开销要小的多.<br>&nbsp; &nbsp; &nbsp; &nbsp;在实际应用中,多线程非常有用,例如,一个浏览器可以同时下载几副图片,一个web服务器需要同时处理多个并发的请求,图形用户界面程序用一个独立的线程从宿主环境中收集用户界面的事件.接下来,介绍如何为java应用程序添加多线程能力.</p>
-</blockquote>
-<ul>
-<li>以上引用自:《JAVA 核心技术 卷一 基础知识 》</li>
-</ul>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/12/12/javaMultiThread/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-javaIoStream" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/12/11/javaIoStream/" class="article-date">
-  	<time datetime="2015-12-11T07:51:30.000Z" itemprop="datePublished">2015-12-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/11/javaIoStream/">JAVA-IO流总结</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="字节流"><a href="#字节流" class="headerlink" title="字节流"></a>字节流</h2><blockquote><p>流(stream)的概念源于UNIX中管道(pipe)的概念。在UNIX中，管道是一条不间断的字节流，用来实现程序或进程间的通信，或读写外围设备、外部文件等。<br>一个流，必有源端和目的端，它们可以是计算机内存的某些区域，也可以是磁盘文件，甚至可以是Internet上的某个URL。<br> 流的方向是重要的，根据流的方向，流可分为两类：输入流和输出流。用户可以从输入流中读取信息，但不能写它。相反，对输出流，只能往输入流写，而不能读它。<br>实际上，流的源端和目的端可简单地看成是字节的生产者和消费者，对输入流，可不必关心它的源端是什么，只要简单地从流中读数据，而对输出流，也可不知道它的目的端，只是简单地往流中写数据。<br>形象的比喻——水流 ，文件======程序 ，文件和程序之间连接一个管道，水流就在之间形成了,自然也就出现了方向：可以流进，也可以流出.便于理解，这么定义流： 流就是一个管道里面有流水，这个管道连接了文件和程序。</p>
-</blockquote>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/总结/">总结</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/12/11/javaIoStream/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 </div>
       <footer id="footer">
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2016 WarpTens
+    		&copy; 2017 WarpTens
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme extend <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
